@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Renovación de Licencia</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand" href="./index.html">
+          <img
+            src="../static/images/logo_sertracen.svg"
+            alt="logo"
+            width="30%"
+          />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./sobre_nosotros.html"
+                >Sobre Nosotros</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./creacion_cita.html">Citas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sección de Renovación de Licencia -->
+    <div class="container my-5">
+      <h2 class="fw-bold">Renovación de licencia</h2>
+      <p class="text-muted">
+        Renueva tu licencia de conducir de manera rápida y sencilla. Verifica
+        que la información esté actualizada.
+      </p>
+
+      <div class="container my-5">
+        <h2 class="fw-bold">Renovación de Licencia</h2>
+        <form id="formBuscarDUI">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              id="inputDui"
+              class="form-control"
+              placeholder="DUI"
+              aria-label="DUI"
+              required
+            />
+            <button class="btn btn-warning text-white" type="submit">
+              <i class="bi bi-search"></i> Buscar
+            </button>
+          </div>
+        </form>
+
+        <!-- Datos Personales -->
+        <h5 class="fw-semibold mt-4">Tus datos personales</h5>
+        <form>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre completo</label>
+              <input
+                type="text"
+                id="nombre"
+                class="form-control"
+                readonly
+                placeholder="Nombre completo"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="dui" class="form-label">DUI</label>
+              <input
+                type="text"
+                id="dui"
+                class="form-control"
+                readonly
+                placeholder="DUI"
+              />
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input
+                type="text"
+                id="telefono"
+                class="form-control"
+                readonly
+                placeholder="Teléfono"
+              />
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="fecha_nacimiento" class="form-label"
+                >Fecha de nacimiento</label
+              >
+              <input
+                type="date"
+                id="fecha_nacimiento"
+                class="form-control"
+                readonly
+              />
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="tipo_sangre" class="form-label">Tipo de sangre</label>
+              <input
+                type="text"
+                id="tipo_sangre"
+                class="form-control"
+                readonly
+                placeholder="Tipo de sangre"
+              />
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input
+                type="text"
+                id="direccion"
+                class="form-control"
+                readonly
+                placeholder="Dirección"
+              />
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="genero" class="form-label">Género</label>
+              <select class="form-select" id="genero" disabled>
+                <option value="">Seleccionar</option>
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option>
+              </select>
+            </div>
+            <div class="col-md-6 mt-3">
+              <label for="correo" class="form-label">Correo electrónico</label>
+              <input
+                type="email"
+                id="correo"
+                class="form-control"
+                readonly
+                placeholder="Correo electrónico"
+              />
+            </div>
+          </div>
+          <div class="mt-3">
+            <button type="button" class="btn btn-outline-primary">
+              Editar información
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <h5 class="fw-semibold">Verificación de licencias registradas</h5>
+        <p class="text-muted">
+          A continuación, verás el listado de tus licencias actuales, incluyendo
+          aquellas que necesitan renovación:
+        </p>
+        <ul id="licenciasList"></ul>
+      </div>
+
+      <!-- Selección de Tipo de Licencia y Fecha de Cita -->
+      <form id="formRegistrarCita">
+          <div class="mb-3">
+            <label for="tipoLicencia" class="form-label">Tipo de licencia</label>
+            <p class="text-muted">
+              Selecciona el tipo de licencia que deseas tramitar.
+            </p>
+            <select class="form-select" id="tipoLicencia" required>
+              <option selected disabled>Seleccionar tipo de licencia</option>
+              <option value="1">Licencia Juvenil Particulares</option>
+              <option value="2">Licencia Juvenil Motociclistas</option>
+              <option value="3">Licencia Motociclistas</option>
+              <option value="4">Licencia Particular</option>
+              <option value="5">Licencia Pesada</option>
+              <option value="6">Licencia Pesada-T</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="citaTramite" class="form-label">Cita para Trámite</label>
+            <p class="text-muted">
+              Elige la fecha y hora que prefieras para tu cita, de acuerdo con la
+              disponibilidad.
+            </p>
+            <div class="input-group">
+              <input type="date" id="fechaCita" class="form-control" id="citaTramite" required/>
+              <span class="input-group-text">
+                <i class="bi bi-calendar"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="d-flex gap-3">
+            <button type="reset" class="btn btn-outline-primary">Limpiar</button>
+            <button type="submit" class="btn btn-warning text-white">
+              Registrar Cita
+            </button>
+          </div>
+          </div>
+      </form>
+
+    <!-- Horarios de Atención -->
+    <div class="bg-primary text-white py-5">
+      <div class="container">
+        <h3 class="fw-bold">Horarios de atención</h3>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <h5 class="fw-bold">Lunes a Viernes</h5>
+            <p><i class="bi bi-clock"></i> 9:00 a.m. - 5:00 p.m.</p>
+            <p>
+              Atención completa en todas las áreas: administrativa, atención al
+              cliente y soporte técnico.
+            </p>
+          </div>
+          <div class="col-md-6">
+            <h5 class="fw-bold">Sábado</h5>
+            <p><i class="bi bi-clock"></i> 9:00 a.m. - 1:00 p.m.</p>
+            <p>
+              Disponibilidad limitada en atención al cliente y soporte técnico.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+      <p class="mb-0">Sertracen</p>
+      <p class="mb-0">Copyright - 2024</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script>
+      // Event listener for the DUI search form
+      document.getElementById("formBuscarDUI").addEventListener("submit", buscarPorDUI);
+  
+      async function buscarPorDUI(event) {
+    event.preventDefault();
+    const dui = document.getElementById("inputDui").value;
+
+    try {
+        const response = await fetch(`/buscar_por_dui?dui=${dui}`);
+        if (!response.ok) {
+            throw new Error("No se pudo encontrar el usuario.");
+        }
+        
+        const data = await response.json();
+
+        // Fill personal data fields
+        if (data.persona) {
+            document.getElementById("nombre").value = data.persona.nombre;
+            document.getElementById("dui").value = dui;
+            document.getElementById("telefono").value = data.persona.telefono;
+
+            // Format date to yyyy-MM-dd
+            const date = new Date(data.persona.fecha_nacimiento);
+            const formattedDate = date.toISOString().split('T')[0];
+            document.getElementById("fecha_nacimiento").value = formattedDate;
+
+            document.getElementById("tipo_sangre").value = data.persona.tipo_sangre;
+            document.getElementById("direccion").value = data.persona.direccion;
+            document.getElementById("genero").value = data.persona.genero;
+            document.getElementById("correo").value = data.persona.correo;
+        } else if (data.mensaje) {
+            alert(data.mensaje);  // Show message if no record is found
+        }
+
+        // Display licenses or message if no licenses are registered
+        const licenciasList = document.getElementById("licenciasList");
+        licenciasList.innerHTML = ""; // Clear previous list
+
+        if (data.licencias && data.licencias.length > 0) {
+            data.licencias.forEach((licencia) => {
+                const licenciaItem = document.createElement("li");
+                licenciaItem.innerHTML = `
+                    Tipo de Licencia: ${licencia.categoria}<br>
+                    Estado: ${licencia.estado}<br>
+                    Fecha de Vencimiento: ${licencia.fecha_vencimiento}
+                `;
+                licenciasList.appendChild(licenciaItem);
+            });
+        } else {
+            const mensajeItem = document.createElement("li");
+            mensajeItem.textContent = "No tienes licencias registradas.";
+            licenciasList.appendChild(mensajeItem);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("Hubo un problema al realizar la búsqueda.");
+    }
+}
+
+  </script>
+     
+
+    <script>
+      // Listener para el formulario de registro de cita
+      document.getElementById("formRegistrarCita").addEventListener("submit", registrarCita);
+    
+      async function registrarCita(event) {
+        event.preventDefault();
+    
+        const dui = document.getElementById("inputDui").value;
+        const tipoLicencia = document.getElementById("tipoLicencia").value;
+        const fechaCita = document.getElementById("fechaCita").value;
+    
+        if (!dui || !tipoLicencia || !fechaCita) {
+          alert("Por favor completa todos los campos.");
+          return;
+        }
+    
+        try {
+          const response = await fetch("http://localhost:5000/registrar_cita", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ dui, tipoLicencia, fechaCita })
+          });
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            alert(data.message); // Muestra mensaje de éxito
+            document.getElementById("formRegistrarCita").reset(); // Limpia el formulario
+          } else {
+            alert(data.error); // Muestra mensaje de error
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+          alert("Hubo un problema al registrar la cita.");
+        }
+      }
+    </script>
+  </body>
+</html>

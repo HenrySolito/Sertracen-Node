@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trámite por Primera Vez</title>
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="./index.html">
+                <img src="../static/images/logo_sertracen.svg" alt="logo" width="30%">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="./index.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./sobre_nosotros.html">Sobre Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./creacion_cita.html">Citas</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Sección de Trámite por Primera Vez -->
+    <div class="container my-5">
+        <h2 class="fw-bold">Trámite por primera vez</h2>
+        <p class="text-muted">Completa el siguiente formulario para solicitar tu cita y tramitar tu licencia de conducir por primera vez. Asegúrate de proporcionar información precisa y actualizada para agilizar el proceso de inscripción y revisión.</p>
+        
+        <h5 class="fw-semibold">Completa tus datos personales</h5>
+        <form>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="nombreCompleto" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" required pattern="[A-Za-z\s]+">
+                </div>
+                <div class="col-md-6">
+                    <label for="dui" class="form-label">DUI</label>
+                    <input type="text" class="form-control" id="dui" name="dui" placeholder="DUI" required pattern="\d{8}-\d{1}" title="El DUI debe tener el formato 12345678-9.">
+                </div>
+                <div class="col-md-6">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" required pattern="\d{4}-\d{4}" title="El teléfono debe tener el formato 1234-5678">
+                </div>
+                <div class="col-md-6">
+                    <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipoSangre" class="form-label">Tipo de sangre</label>
+                    <input type="text" class="form-control" id="tipoSangre" name="tipoSangre" placeholder="Tipo de sangre" required pattern="(A|B|AB|O)[+-]" title="El tipo de sangre debe ser A+, A-, B+, B-, AB+, AB-, O+ o O-">
+                </div>
+                <div class="col-md-6">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="genero" class="form-label">Género</label>
+                    <select class="form-select" id="genero" name="genero" required>
+                        <option value="" disabled selected>Seleccionar</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Femenino">Femenino</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="correoElectronico" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"placeholder="Correo electrónico" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Debe ser una dirección de correo válida, por ejemplo, usuario@dominio.com">
+                </div>
+            </div>
+        <!-- Selección de Tipo de Licencia y Fecha de Cita -->
+        <div class="mb-3 mt-4">
+            <h5 class="fw-semibold">Agenda tu cita</h5>
+            <label for="tipoLicencia" class="form-label">Tipo de licencia que desea adquirir</label>
+            <p class="text-muted">Selecciona el tipo de licencia que deseas tramitar.</p>
+            <select class="form-select" id="tipoLicencia" name="tipoLicencia" required>
+                <option value="" disabled selected>Seleccionar tipo de licencia</option>
+                <option value="1">Licencia Juvenil Vehículos Particulares</option>
+                <option value="2">Licencia Juvenil Motociclistas</option>
+                <option value="3">Licencia Particular</option>
+                <option value="4">Licencia Pesada</option>
+                <option value="5">Licencia Pesada-T</option>
+            </select>
+        </div>
+        <!--Cita-->
+        <div class="mb-3 mt-4">
+            <label for="citaTramite" class="form-label">Cita para Trámite</label>
+            <p class="text-muted">Elige la fecha y hora que prefieras para tu cita, de acuerdo con la disponibilidad.</p>
+            <div class="input-group">
+                <input type="datetime-local" class="form-control" id="citaTramite" name="citaTramite" min="">                
+            </div>
+        </div>
+        
+        <div class="d-flex gap-3">
+            <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
+            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrar Cita</button>
+        </div>
+    </div>
+        </form>
+    </div>    
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">Sertracen</p>
+        <p class="mb-0">Copyright - 2024</p>
+    </footer>
+    <script src="../static/js/control_edad.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
