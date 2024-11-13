@@ -1,0 +1,181 @@
+
+.btnInfracciones{
+    background-color:#9EC9FF;
+    color: #003B86;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 40;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btnInfracciones:hover{
+    background-color:#025cd2;
+    color: #9EC9FF;
+}
+
+.btntexto{
+    font-size: 40;
+}
+
+.navbar{
+    position: fixed;
+}
+
+.logo_margen{
+    margin-top: 20%;
+}
+
+i{
+    font-size: 20px;
+}
+
+
+/* Cards creacion_cita */
+.card-link.creacion_cita {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.custom-card.creacion_cita {
+    min-height: 250px;
+}
+
+
+.creacion-citafooter {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+.seccion-infracciones {
+    background-image: url('../images/infraccion.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 70vh; /* Ocupa la altura completa de la ventana */
+    padding: 0 20px;
+    position: relative;
+}
+
+.seccion-infracciones::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.687);
+    z-index: 1;
+}
+
+.titulo-principal {
+    margin-top: 9%;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+
+.contenedor {
+    position: relative;
+    z-index: 2;
+}
+.subtitulo {
+    font-size: 1.25rem;
+    color: #e0e0e0; /* Color gris claro para el subtítulo */
+    line-height: 1.5;
+}
+
+.seccion-infracciones h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.seccion-infracciones p {
+    font-size: 1.2rem;
+}
+/* Agendar_cita */
+
+.btn-outline-primary.text-custom {
+    color: #003B86;
+    border-color: #003B86;
+}
+
+.btn-outline-primary.text-custom:hover {
+    background-color: #003B86;
+    color: white;
+}
+
+p, h1, h2, h3, label, a, li, h5, h4, i, option, input {
+    font-family: "Montserrat", serif;
+}
+
+
+/* Estilos generales */
+.pruebaCard {
+    justify-items: center;
+    display:flex;
+    gap: 10px; /* Espacio entre las cards */
+    width: 100; /* Limitar el ancho máximo */
+}
+
+/* Estilo de la caja */
+.pruebaCard {
+    display: flex;
+    justify-items: start;
+    width: 100%;
+}
+
+/* Estilo de la caja de las cards */
+.licencia-box {
+    display: flex;           /* Flexbox para organizar el contenido de la card */
+     /* Organiza los elementos de forma vertical */
+    justify-content: center; /* Alinea el contenido verticalmente */
+    background-color: #003B86; /* bg-primary */
+    color: white;            /* text-white */
+    padding: 20px;           /* Espaciado interno */
+    border-radius: 1rem;     /* Bordes redondeados */
+    text-align: start;      /* Centra el contenido dentro de la card */
+    height: 250px;  
+    gap: 20px;        /* Altura fija para mantener las cards del mismo tamaño */
+    width: 100%;             /* Ancho 100% de su contenedor */
+    box-sizing: border-box;  /* Incluye el padding en el tamaño total */
+}
+
+/* Estilo para el título dentro de las cards */
+.titulo2 {
+    color: #ffc107;          /* Color del texto (amarillo) */
+    font-size: 20px;     /* Tamaño de la fuente */
+    padding-top: 5px;         /* Ajuste fino del espaciado */
+    margin-bottom: 10px;      /* Espaciado debajo del título */
+    align-self: center;
+    text-align: left;       /* Centra el título */               /* Elimina márgenes innecesarios */
+}
+
+/* Estilo para la edad */
+.edad {
+    font-size:40px;        /* Tamaño grande para la edad */
+    font-weight: bold;
+    text-align: center;
+    align-self: center; 
+    align-items: left;     /* Ajuste del margen debajo del número */
+}
+
+/* Estilo para los años */
+.anios {
+    font-size: 20px;        /* Tamaño ajustado para los años */
+    margin-top: -5px;         /* Reduce espacio entre el número y la palabra */
+    line-height: 0; 
+    text-align: center;
+    align-self: center; 
+    align-items: left; 
+}

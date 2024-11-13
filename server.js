@@ -7,10 +7,12 @@ const app = express();
 const PORT = 8080;
 
 // Serve static files from the public directory
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Route for serving index.html
+
+//Servidor de rutas para las vistas -------------------------------------------------------
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -21,7 +23,16 @@ app.get('/creacion_cita', (req, res) => {
 app.get('/renovacion_tramite', (req, res) => {
     res.sendFile(path.join(__dirname, 'renovacion_tramite.html'));
 });
+app.get('/sobre_nosotros', (req, res) => {
+    res.sendFile(path.join(__dirname, 'sobre_nosotros.html'));
+});
+app.get('/primera_cita', (req, res) => {
+    res.sendFile(path.join(__dirname, 'primera_cita.html'));
+});
 
+
+
+//----------------------------------------------------------------------------
 // Route to handle buscar_por_dui
 app.get('/buscar_por_dui', (req, res) => {
     const dui = req.query.dui;
@@ -88,6 +99,10 @@ app.post('/registrar_cita', (req, res) => {
         }
         res.status(200).json({ message: 'Cita registrada exitosamente' });
     });
+});
+
+app.post('/crear_persona', (re,res) =>{
+    const {}
 });
 
 // Start the server
