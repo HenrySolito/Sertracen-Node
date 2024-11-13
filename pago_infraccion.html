@@ -1,125 +1,293 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verificación de Infracciones Pendientes</title>
-    <link rel="stylesheet" href="../static/css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-</head>
-<body>
-
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container">
-            <a class="navbar-brand" href="./index.html">
-                <img src="../static/images/logo_sertracen.svg" alt="logo" width="30%">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="./index.html">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./sobre_nosotros.html">Sobre Nosotros</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="./creacion_cita.html">Citas</a>
-                    </li>
-                </ul>
-            </div>
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="/public/img/logo_sertracen.svg" alt="logo" width="30%" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sobre_nosotros"
+                >Sobre Nosotros</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/creacion_cita">Citas</a>
+            </li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Sección de Verificación de Infracciones Pendientes -->
     <div class="container my-5">
-        <h2 class="fw-bold">Consulta de Infracciones Activas</h2>
-        <p>Antes de continuar con la renovación de tu licencia, es necesario revisar si tienes alguna infracción pendiente de pago.</p>
-        
-        <h6 class="fw-bold">Instrucciones para el Pago</h6>
-        <p>Puedes realizar el pago de las infracciones pendientes en cualquiera de nuestros puntos de atención. Una vez confirmado el pago, podrás regresar para continuar con la renovación de tu licencia.</p>
+      <h2 class="fw-bold">Consulta de Infracciones Activas</h2>
+      <p>
+        Antes de continuar con la renovación de tu licencia, es necesario
+        revisar si tienes alguna infracción pendiente de pago.
+      </p>
 
-        <!-- Formulario de búsqueda de infracciones -->
-        <form class="mb-4">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Ingresa tu DUI para consultar tu estado" aria-label="DUI">
-                <button class="btn btn-warning text-white" type="button">
-                    <i class="bi bi-search"></i> Buscar
-                </button>
-            </div>
-        </form>
+      <h6 class="fw-bold">Instrucciones para el Pago</h6>
+      <p>
+        Puedes realizar el pago de las infracciones pendientes en cualquiera de
+        nuestros puntos de atención. Una vez confirmado el pago, podrás regresar
+        para continuar con la renovación de tu licencia.
+      </p>
 
-        <!-- Resultados de búsqueda -->
-        <h5 class="fw-semibold mt-4">Resultados</h5>
-        <p>Se encontraron una infracción pendiente de pago. Para proceder con la renovación de tu licencia, es necesario que regularices el pago de estas infracciones.</p>
-
-        <!-- Tabla de infracciones pendientes -->
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-                        <th>N° de Infracción</th>
-                        <th>Nombre</th>
-                        <th>Clasificación</th>
-                        <th>Tarifa</th>
-                        <th>Estado</th>
-                        <th>Fecha de infracción</th>
-                        <th>Fecha de vencimiento</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Exceso de Velocidad</td>
-                        <td>Grave</td>
-                        <td>$50.00</td>
-                        <td>Pendiente de Pago</td>
-                        <td>2024-10-15</td>
-                        <td>2024-11-15</td>
-                        <td class="text-center">
-                            <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción">
-                                <i class="bi bi-currency-dollar"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>Estacionamiento Ilegal</td>
-                        <td>Leve</td>
-                        <td>$20.00</td>
-                        <td>Pendiente de Pago</td>
-                        <td>2024-09-12</td>
-                        <td>2024-10-12</td>
-                        <td class="text-center">
-                            <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción">
-                                <i class="bi bi-currency-dollar"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+      <!-- Formulario de búsqueda de infracciones -->
+      <form class="mb-4">
+        <div class="input-group">
+          <input
+            type="text"
+            id="duiInput"
+            class="form-control"
+            placeholder="Ingresa tu DUI para consultar tu estado"
+            aria-label="DUI"
+          />
+          <button
+            id="searchButton"
+            class="btn btn-warning text-white"
+            type="button"
+          >
+            <i class="bi bi-search"></i> Buscar
+          </button>
         </div>
+      </form>
 
-        <!-- Botón de limpiar resultado -->
-        <div class="mt-4">
-            <a href="./pago_sin_infraccion.html">
-                <button class="btn btn-outline-primary" type="button">Limpiar resultado</button>
-            </a>
-        </div>
+      <!-- Resultados de búsqueda -->
+      <h5 class="fw-semibold mt-4">Resultados</h5>
+      <p>
+        Se encontraron una infracción pendiente de pago. Para proceder con la
+        renovación de tu licencia, es necesario que regularices el pago de estas
+        infracciones.
+      </p>
+
+      <!-- Tabla de infracciones pendientes -->
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th>N° de Infracción</th>
+              <th>Nombre</th>
+              <th>Clasificación</th>
+              <th>Tarifa</th>
+              <th>Estado</th>
+              <th>Fecha de infracción</th>
+              <th>Fecha de vencimiento</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            </tr>
+            <tr>
+              <td class="text-center">
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Botón de limpiar resultado -->
+      <div class="mt-4">
+        <a href="./pago_sin_infraccion.html">
+          <button class="btn btn-outline-primary" type="button">
+            Limpiar resultado
+          </button>
+        </a>
+      </div>
     </div>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
-        <p class="mb-0">Sertracen</p>
-        <p class="mb-0">Copyright - 2024</p>
+      <p class="mb-0">Sertracen</p>
+      <p class="mb-0">Copyright - 2024</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-</body>
+
+    <script>
+        document.getElementById("searchButton").addEventListener("click", fetchInfractions);
+      
+        async function fetchInfractions() {
+          const dui = document.getElementById("duiInput").value;
+      
+          if (!dui) {
+            alert("Por favor ingresa un DUI válido.");
+            return;
+          }
+      
+          try {
+            const response = await fetch(`http://localhost:8080/buscar_infracciones?dui=${dui}`);
+            const data = await response.json();
+      
+            if (response.ok) {
+              populateInfractionsTable(data.infractions);
+            } else {
+              alert(data.error || "No se encontraron infracciones.");
+              clearInfractionsTable();
+            }
+          } catch (error) {
+            console.error("Error al realizar la solicitud:", error);
+            alert("Hubo un problema al consultar las infracciones.");
+          }
+        }
+      
+        function populateInfractionsTable(infractions) {
+          const tbody = document.querySelector("tbody");
+          tbody.innerHTML = "";
+      
+          if (infractions.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='8'>No se encontraron infracciones.</td></tr>";
+            return;
+          }
+      
+          infractions.forEach((infraction) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${infraction.id_ai}</td>
+              <td>${infraction.tipo_infraccion}</td>
+              <td>${infraction.clasificacion}</td>
+              <td>$${infraction.tarifa.toFixed(2)}</td>
+              <td>${infraction.estado}</td>
+              <td>${infraction.fecha_infraccion}</td>
+              <td>${infraction.fecha_vencimiento}</td>
+              <td class="text-center">
+                <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción">
+                  <i class="bi bi-currency-dollar"></i>
+                </button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+      
+        function clearInfractionsTable() {
+          const tbody = document.querySelector("tbody");
+          tbody.innerHTML = "<tr><td colspan='8'>No hay resultados para mostrar.</td></tr>";
+        }
+      </script>
+
+<script>
+    document.getElementById("searchButton").addEventListener("click", fetchInfractions);
+  
+    async function fetchInfractions() {
+      const dui = document.getElementById("duiInput").value;
+  
+      if (!dui) {
+        alert("Por favor ingresa un DUI válido.");
+        return;
+      }
+  
+      try {
+        const response = await fetch(`http://localhost:8080/buscar_infracciones?dui=${dui}`);
+        const data = await response.json();
+  
+        if (response.ok) {
+          populateInfractionsTable(data.infractions);
+        } else {
+          alert(data.error || "No se encontraron infracciones.");
+          clearInfractionsTable();
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
+        alert("Hubo un problema al consultar las infracciones.");
+      }
+    }
+  
+    function populateInfractionsTable(infractions) {
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = "";
+  
+      if (infractions.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='8'>No se encontraron infracciones.</td></tr>";
+        return;
+      }
+  
+      infractions.forEach((infraction) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${infraction.id_ai}</td>
+          <td>${infraction.tipo_infraccion}</td>
+          <td>${infraction.clasificacion}</td>
+          <td>$${infraction.tarifa.toFixed(2)}</td>
+          <td>${infraction.estado}</td>
+          <td>${infraction.fecha_infraccion}</td>
+          <td>${infraction.fecha_vencimiento}</td>
+          <td class="text-center">
+            <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción" onclick="pagarInfraccion(${infraction.id_ai})">
+              <i class="bi bi-currency-dollar"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+  
+    // Function to handle paying the infraction
+    async function pagarInfraccion(id_ai) {
+      try {
+        const response = await fetch(`http://localhost:8080/pagar_infraccion`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id_ai })
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          alert(data.message); // Show success message
+          fetchInfractions(); // Refresh the infraction list
+        } else {
+          alert(data.error || "Error al pagar la infracción.");
+        }
+      } catch (error) {
+        console.error("Error al realizar el pago de la infracción:", error);
+        alert("Hubo un problema al pagar la infracción.");
+      }
+    }
+  
+    function clearInfractionsTable() {
+      const tbody = document.querySelector("tbody");
+      tbody.innerHTML = "<tr><td colspan='8'>No hay resultados para mostrar.</td></tr>";
+    }
+  </script>
+  
+      
+      
+      
+  </body>
 </html>

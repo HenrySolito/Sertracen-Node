@@ -32,6 +32,9 @@ app.get('/sobre_nosotros', (req, res) => {
 app.get('/primera_cita', (req, res) => {
     res.sendFile(path.join(__dirname, 'primera_cita.html'));
 });
+app.get('/pago_infraccion', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pago_infraccion.html'));
+});
 
 
 
@@ -104,7 +107,37 @@ app.post('/registrar_cita', (req, res) => {
     });
 });
 
-// app.js
+//Busqueda de infracciones
+app.get('/buscar_infracciones', (req, res) => {
+    const dui = req.query.dui;
+
+    const query = `
+      SELECT 
+          ai.id_ai,
+          ai.dui,
+          i.nombre AS tipo_infraccion,
+          i.clasificacion,
+          i.tarifa,
+          ai.estado,
+          ai.fecha_infraccion,
+          ai.fecha_vencimiento
+      FROM asignacion_infraccion ai
+      JOIN infracciones i ON ai.id_infraccion = i.id_infraccion
+      WHERE ai.dui = ?
+    `;
+
+    connection.query(query, [dui], (err, results) => {
+        if (err) {
+            console.error("Error al consultar la base de datos:", err);
+            res.status(500).json({ error: 'Error al consultar la base de datos' });
+        } else if (results.length > 0) {
+            res.status(200).json({ infractions: results });
+        } else {
+            res.status(404).json({ error: 'No se encontraron infracciones para este DUI' });
+        }
+    });
+});
+// Obtener licencia por primera vez y registrar cita 
 app.post('/licencia_nuevo', (req, res) => {
     const { 
       dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico,
@@ -143,6 +176,26 @@ app.post('/licencia_nuevo', (req, res) => {
     });
   
   
+
+//Pagar Infracción
+// Endpoint to update infraction status to "Pagada"
+app.post('/pagar_infraccion', (req, res) => {
+    const { id_ai } = req.body; // `id_ai` is the ID of the infraction assignment record
+
+    const query = `UPDATE asignacion_infraccion SET estado = 'Pagado' WHERE id_ai = ?`;
+
+    connection.query(query, [id_ai], (err, result) => {
+        if (err) {
+            console.error("Error al actualizar el estado de la infracción:", err);
+            res.status(500).json({ error: 'Error al actualizar la infracción' });
+        } else if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Infracción pagada exitosamente' });
+        } else {
+            res.status(404).json({ error: 'Infracción no encontrada' });
+        }
+    });
+});
+
 
 // Start the server
 app.listen(8080, () => {
