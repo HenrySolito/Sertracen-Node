@@ -179,3 +179,31 @@ p, h1, h2, h3, label, a, li, h5, h4, i, option, input {
     align-self: center; 
     align-items: left; 
 }
+/*Para licencia*/
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo translúcido */
+    justify-content: center;
+    align-items: center;
+}
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 600px;
+}
+.close-btn {
+    float: right;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.profile-photo{
+    width: 60px;
+    height: 60px;
+}

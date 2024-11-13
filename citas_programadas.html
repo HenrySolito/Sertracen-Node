@@ -74,8 +74,23 @@
           </tbody>
         </table>
       </div>
-
     </div>
+
+        <!-- Modal con la información de la persona -->
+        <div id="infoModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h3>Licencia de Conducir</h3>
+                <img id="profilePhoto" src="./public/img/perfil.png" alt="Foto de Perfil" class="profile-photo">
+                <p><strong>Nombre:</strong> <span id="modalNombre"></span></p>
+                <p><strong>DUI:</strong> <span id="modalDUI"></span></p>
+                <p><strong>Fecha de Nacimiento:</strong> <span id="modalFechaNacimiento"></span></p>
+                <p><strong>Dirección:</strong> <span id="modalDireccion"></span></p>
+                <p><strong>Fecha de Expedición:</strong> <span id="modalFechaExpedicion"></span></p>
+                <p><strong>Tipo de Licencia:</strong> <span id="modalTipoLicencia"></span></p>
+                <p><strong>Grupo Sanguíneo:</strong> <span id="modalTipoSangre"></span></p>
+            </div>
+        </div>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
@@ -84,28 +99,53 @@
     </footer>
 
     <script>
-        // Usamos fetch para obtener los datos desde la API
-        fetch('/api/citas_progarmadas')
+        // Función para abrir el modal y llenar los datos
+        // Función para abrir el modal desde el botón y pasar los datos
+function openModalFromButton(button) {
+    // Extraemos el objeto JSON almacenado en el atributo 'data-persona'
+    const persona = JSON.parse(button.getAttribute('data-persona'));
+    
+    // Llamamos a la función openModal pasando el objeto persona
+    openModal(persona);
+}
+
+// Función para mostrar la información en el modal
+        function openModal(persona) {
+            // Asignamos los valores a los elementos del modal
+            document.getElementById('modalNombre').textContent = persona.nombre;
+            document.getElementById('modalDUI').textContent = persona.dui;
+            document.getElementById('modalFechaNacimiento').textContent = persona.fecha_nacimiento;
+            document.getElementById('modalDireccion').textContent = persona.direccion;
+            document.getElementById('modalFechaExpedicion').textContent = persona.fecha_registro;
+            document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
+            document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
+            
+            // Mostramos el modal
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        // Función para cerrar el modal
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        // Cargar las citas y agregar la tabla
+        fetch('/api/citas_programadas')
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.querySelector('#citas-table tbody');
-                
-                // Verificamos si hay datos
-                if (data.length === 0) {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `<td colspan="3">No se encontraron registros.</td>`;
-                    tableBody.appendChild(row);
-                    return;
-                }
 
-                // Recorremos los datos y los agregamos a la tabla
-                data.forEach(cita => {
+                data.forEach(persona => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${cita.nombre}</td>
-                        <td>${cita.fecha}</td>
-                        <td>${cita.tipo}</td>
-                        <td><button type="button" class="btn btn-outline-dark"><i class="bi bi-person-vcard"></i></button></td>
+                        <td>${persona.fecha_cita}</td>
+                        <td>${persona.nombre}</td>
+                        <td>${persona.tipo_licencia}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-dark" data-persona='${JSON.stringify(persona)}' onclick="openModalFromButton(this)">
+                                <i class="bi bi-person-vcard"></i>
+                            </button>
+                        </td>
                     `;
                     tableBody.appendChild(row);
                 });
