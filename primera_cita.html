@@ -44,15 +44,15 @@
         <p class="text-muted">Completa el siguiente formulario para solicitar tu cita y tramitar tu licencia de conducir por primera vez. Asegúrate de proporcionar información precisa y actualizada para agilizar el proceso de inscripción y revisión.</p>
         
         <h5 class="fw-semibold">Completa tus datos personales</h5>
-        <form>
+        <form  action="/licencia_nuevo" method="POST">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="nombreCompleto" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" required pattern="[A-Za-z\s]+">
+                    <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" required>
                 </div>
                 <div class="col-md-6">
                     <label for="dui" class="form-label">DUI</label>
-                    <input type="text" class="form-control" id="dui" name="dui" placeholder="DUI" required pattern="\d{8}-\d{1}" title="El DUI debe tener el formato 12345678-9.">
+                    <input type="text" class="form-control" id="dui" name="dui" placeholder="DUI" required pattern="\d{9}" title="El DUI debe tener el formato 12345678-9.">
                 </div>
                 <div class="col-md-6">
                     <label for="telefono" class="form-label">Teléfono</label>

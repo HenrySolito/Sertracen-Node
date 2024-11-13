@@ -3,9 +3,12 @@ const express = require('express');
 const path = require('path');
 const connection = require('./database'); // Import the database connection
 
+
 const app = express();
 const PORT = 8080;
-
+//Prueba
+// Middleware para procesar datos de formularios (para que req.body no esté vacío)
+app.use(express.urlencoded({ extended: true })); // Asegúrate de que los datos del formulario sean procesados correctamente
 // Serve static files from the public directory
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -104,14 +107,6 @@ app.post('/registrar_cita', (req, res) => {
     });
 });
 
-
-
-
-
-
-
-
-
 //Busqueda de infracciones
 app.get('/buscar_infracciones', (req, res) => {
     const dui = req.query.dui;
@@ -142,6 +137,26 @@ app.get('/buscar_infracciones', (req, res) => {
         }
     });
 });
+// Obtener licencia por primera vez y registrar cita 
+app.post('/licencia_nuevo', (req, res) => {
+    const { dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico } = req.body;
+  
+    // Validar campos vacíos
+    if (!dui || !nombreCompleto || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correoElectronico) {
+      return res.send('Por favor, complete todos los campos.');
+    }
+
+    const query = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(query, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico], (err, result) => {
+      if (err) {
+        console.error('Error al guardar los datos: ', err);
+        res.send('Hubo un error al guardar los datos.');
+      } else {
+        res.send('Datos guardados correctamente.');
+      }
+    });
+  });
+  
 
 //Pagar Infracción
 // Endpoint to update infraction status to "Pagada"
