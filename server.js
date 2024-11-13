@@ -102,7 +102,7 @@ app.post('/registrar_cita', (req, res) => {
 });
 
 app.post('/crear_persona', (re,res) =>{
-    const {}
+    const { dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo}
 });
 
 // Start the server
