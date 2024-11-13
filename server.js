@@ -106,17 +106,13 @@ app.post('/registrar_cita', (req, res) => {
 
 // Obtener licencia por primera vez y registrar cita 
 app.post('/licencia_nuevo', (req, res) => {
-    // Verifica si los datos llegan correctamente
-    console.log(req.body); // Añade esto para depuración
-  
     const { dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico } = req.body;
   
-    // Si hay algún campo vacío, puedes hacer una validación aquí antes de continuar
+    // Validar campos vacíos
     if (!dui || !nombreCompleto || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correoElectronico) {
       return res.send('Por favor, complete todos los campos.');
     }
-  
-    // Insertar datos en la base de datos
+
     const query = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(query, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico], (err, result) => {
       if (err) {
