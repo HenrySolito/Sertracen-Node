@@ -144,36 +144,56 @@ app.post('/licencia_nuevo', (req, res) => {
       tipoLicencia, citaTramite 
     } = req.body;
   
-  
-    //Campos vacío
+    //Verificacion de campos vacios
     if (!dui || !nombreCompleto || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correoElectronico) {
-      return res.send('Por favor, complete todos los campos personales.');
+        alert("Por favor completa todos los campos de datos personales.");
+        return;
     }
-  
     if (!tipoLicencia || !citaTramite) {
-      return res.send('Por favor, complete los campos de la cita.');
+        alert("Por favor completa todos los campos de la cita.");
+        return;
     }
   
-    // Primero, insertar los datos en la tabla `persona`
     const queryPersona = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(queryPersona, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico], (err, result) => {
-      if (err) {
-        console.error('Error al guardar los datos en persona: ', err);
-        return res.send('Hubo un error al guardar los datos personales.');
-      }
+        if (err) {
+            res.send(`
+              <script>
+                alert('Hubo un error al guardar los datos');
+              </script>
+            `);
+        }
     
     const queryCitas = 'INSERT INTO citas (dui, tipo, fecha_cita) VALUES (?, ?, ?)';
-    connection.query(queryCitas, [dui, tipoLicencia, citaTramite], (err3, result3) => {
+    connection.query(queryCitas, [dui, 1, citaTramite], (err3, result3) => {
         if (err3) {
-            console.error('Error al guardar los datos en citas: ', err3);
-            return res.send('Hubo un error al guardar los datos de la cita.');
+            res.send(`
+              <script>
+                alert('Hubo un error al guardar los datos');
+              </script>
+            `);
         }
-  
-          // Si todo va bien, enviar un mensaje de éxito
-        res.send('Datos guardados correctamente en ambas tablas.');
+    const queryAsignacion = 'INSERT INTO asignacion_licencia (dui, id_licencia, vez, fecha_registro) VALUES (?, ?, ?, ?)';
+    connection.query(queryAsignacion, [dui, tipoLicencia, 1, citaTramite], (err4, result4) => {
+        if (err4) {
+            res.send(`
+              <script>
+                alert('Hubo un error al guardar los datos');
+              </script>
+            `);
+        } else {
+            res.send(`
+              <script>
+                alert('Se guardaron correctamente');
+                window.location.href = "/";
+              </script>
+            `);
+          }
+            
         });
       });
     });
+});
   
   
 
