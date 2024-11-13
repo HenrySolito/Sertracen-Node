@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificación de Infracciones Pendientes</title>
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="/public/img/logo_sertracen.svg" alt="logo" width="30%" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sobre_nosotros"
+                >Sobre Nosotros</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/creacion_cita">Citas</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sección de Verificación de Infracciones Pendientes -->
+    <div class="container my-5">
+      <h2 class="fw-bold">Citas programadas</h2>
+      <p>
+        Antes de continuar se muetra el listado de perosonas que han solicitado su licencia par su revisión.
+      </p>
+
+      <!-- Tabla de infracciones pendientes -->
+      <div class="table-responsive">
+        <table class="table table-bordered" id="citas-table">
+          <thead class="table-light">
+            <tr>
+              <th>Fecha de la cita</th>
+              <th>Nombre</th>
+              <th>Tipo de Licencia</th>
+              <th>Generar licencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--Aqui se llenara con js-->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+      <p class="mb-0">Sertracen</p>
+      <p class="mb-0">Copyright - 2024</p>
+    </footer>
+
+    <script>
+        // Usamos fetch para obtener los datos desde la API
+        fetch('/api/citas_progarmadas')
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.querySelector('#citas-table tbody');
+                
+                // Verificamos si hay datos
+                if (data.length === 0) {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="3">No se encontraron registros.</td>`;
+                    tableBody.appendChild(row);
+                    return;
+                }
+
+                // Recorremos los datos y los agregamos a la tabla
+                data.forEach(cita => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${cita.nombre}</td>
+                        <td>${cita.fecha}</td>
+                        <td>${cita.tipo}</td>
+                        <td><button type="button" class="btn btn-outline-dark"><i class="bi bi-person-vcard"></i></button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error al cargar los datos:', error);
+            });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

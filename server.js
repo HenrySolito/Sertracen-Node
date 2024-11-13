@@ -35,8 +35,32 @@ app.get('/primera_cita', (req, res) => {
 app.get('/pago_infraccion', (req, res) => {
     res.sendFile(path.join(__dirname, 'pago_infraccion.html'));
 });
+app.get('/citas_programadas', (req, res) => {
+    res.sendFile(path.join(__dirname, 'citas_programadas.html'));
+});
 
-
+app.get('/api/citas_progarmadas', (req, res) => {
+    const query = `
+      SELECT c.fecha_cita AS fecha, p.nombre AS nombre, l.categoria AS tipo 
+      FROM persona p 
+      INNER JOIN citas c ON c.dui = p.dui
+      INNER JOIN asignacion_licencia al ON al.dui = p.dui
+      INNER JOIN licencias l ON l.id_licencia = al.id_licencia
+      WHERE al.estado = 'Activo'
+    `;
+  
+    // Usar 'connection' para ejecutar la consulta a la base de datos
+    connection.query(query, (err, rows) => {
+      if (err) {
+        console.log('Error en la consulta:', err);
+        res.status(500).send('Error en la consulta');
+        return;
+      }
+  
+      // Devolver los resultados como un JSON
+      res.json(rows);
+    });
+  });
 
 //----------------------------------------------------------------------------
 // Route to handle buscar_por_dui
