@@ -182,43 +182,43 @@
 
       <!-- Selección de Tipo de Licencia y Fecha de Cita -->
       <form id="formRegistrarCita">
-          <div class="mb-3">
+        <div class="mb-3">
             <label for="tipoLicencia" class="form-label">Tipo de licencia</label>
             <p class="text-muted">
-              Selecciona el tipo de licencia que deseas tramitar.
+                Selecciona el tipo de licencia que deseas tramitar.
             </p>
             <select class="form-select" id="tipoLicencia" required>
-              <option selected disabled>Seleccionar tipo de licencia</option>
-              <option value="1">Licencia Juvenil Particulares</option>
-              <option value="2">Licencia Juvenil Motociclistas</option>
-              <option value="3">Licencia Motociclistas</option>
-              <option value="4">Licencia Particular</option>
-              <option value="5">Licencia Pesada</option>
-              <option value="6">Licencia Pesada-T</option>
+                <option selected disabled>Seleccionar tipo de licencia</option>
+                <option value="1">Licencia Juvenil Particulares</option>
+                <option value="2">Licencia Juvenil Motociclistas</option>
+                <option value="3">Licencia Motociclistas</option>
+                <option value="4">Licencia Particular</option>
+                <option value="5">Licencia Pesada</option>
+                <option value="6">Licencia Pesada-T</option>
             </select>
-          </div>
-          <div class="mb-3">
-            <label for="citaTramite" class="form-label">Cita para Trámite</label>
+        </div>
+        <div class="mb-3">
+            <label for="fechaCita" class="form-label">Cita para Trámite</label>
             <p class="text-muted">
-              Elige la fecha y hora que prefieras para tu cita, de acuerdo con la
-              disponibilidad.
+                Elige la fecha y hora que prefieras para tu cita, de acuerdo con la
+                disponibilidad.
             </p>
             <div class="input-group">
-              <input type="date" id="fechaCita" class="form-control" id="citaTramite" required/>
-              <span class="input-group-text">
-                <i class="bi bi-calendar"></i>
-              </span>
+                <input type="date" id="fechaCita" class="form-control" required/>
+                <span class="input-group-text">
+                    <i class="bi bi-calendar"></i>
+                </span>
             </div>
-          </div>
-
-          <div class="d-flex gap-3">
+        </div>
+    
+        <div class="d-flex gap-3">
             <button type="reset" class="btn btn-outline-primary">Limpiar</button>
             <button type="submit" class="btn btn-warning text-white">
-              Registrar Cita
+                Registrar Cita
             </button>
-          </div>
-          </div>
-      </form>
+        </div>
+    </form>
+    
 
     <!-- Horarios de Atención -->
     <div class="bg-primary text-white py-5">
@@ -288,8 +288,10 @@
         }
 
         // Display licenses or message if no licenses are registered
+        // Mostrar las licencias o el mensaje de "No tienes licencias registradas"
+        // Llenar las licencias asociadas al DUI
         const licenciasList = document.getElementById("licenciasList");
-        licenciasList.innerHTML = ""; // Clear previous list
+        licenciasList.innerHTML = ""; // Limpiar la lista antes de llenarla
 
         if (data.licencias && data.licencias.length > 0) {
             data.licencias.forEach((licencia) => {
@@ -306,6 +308,8 @@
             mensajeItem.textContent = "No tienes licencias registradas.";
             licenciasList.appendChild(mensajeItem);
         }
+
+
     } catch (error) {
         console.error("Error en la solicitud:", error);
         alert("Hubo un problema al realizar la búsqueda.");
@@ -313,46 +317,48 @@
 }
 
   </script>
-     
 
-    <script>
-      // Listener para el formulario de registro de cita
-      document.getElementById("formRegistrarCita").addEventListener("submit", registrarCita);
-    
-      async function registrarCita(event) {
-        event.preventDefault();
-    
-        const dui = document.getElementById("inputDui").value;
-        const tipoLicencia = document.getElementById("tipoLicencia").value;
-        const fechaCita = document.getElementById("fechaCita").value;
-    
-        if (!dui || !tipoLicencia || !fechaCita) {
-          alert("Por favor completa todos los campos.");
-          return;
-        }
-    
-        try {
-          const response = await fetch("http://localhost:5000/registrar_cita", {
+  <script>
+    document.getElementById("formRegistrarCita").addEventListener("submit", registrarCita);
+
+    async function registrarCita(event) {
+    event.preventDefault();
+
+    const dui = document.getElementById("inputDui").value;
+    const tipoLicencia = document.getElementById("tipoLicencia").value;
+    const fechaCita = document.getElementById("fechaCita").value;
+
+    if (!dui || !tipoLicencia || !fechaCita) {
+        alert("Por favor completa todos los campos.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:8080/registrar_cita", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({ dui, tipoLicencia, fechaCita })
-          });
-    
-          const data = await response.json();
-    
-          if (response.ok) {
-            alert(data.message); // Muestra mensaje de éxito
-            document.getElementById("formRegistrarCita").reset(); // Limpia el formulario
-          } else {
-            alert(data.error); // Muestra mensaje de error
-          }
-        } catch (error) {
-          console.error("Error en la solicitud:", error);
-          alert("Hubo un problema al registrar la cita.");
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.message);
+            document.getElementById("formRegistrarCita").reset();
+        } else {
+            alert(data.error);
         }
-      }
-    </script>
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("Hubo un problema al registrar la cita.");
+    }
+}
+
+</script>
+
+
+     
   </body>
 </html>
