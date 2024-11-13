@@ -55,12 +55,14 @@ app.get('/buscar_por_dui', (req, res) => {
     // Ejecutar ambas consultas
     connection.query(personaQuery, [dui], (err, personaResults) => {
         if (err) {
+            console.error("Error en la consulta de persona:", err);
             return res.status(500).json({ error: 'Error al consultar la base de datos' });
         }
 
         if (personaResults.length > 0) {
             connection.query(licenciasQuery, [dui], (err, licenciasResults) => {
                 if (err) {
+                    console.error("Error en la consulta de licencias:", err);
                     return res.status(500).json({ error: 'Error al consultar las licencias' });
                 }
 
@@ -167,8 +169,8 @@ app.post('/licencia_nuevo', (req, res) => {
             console.error('Error al guardar los datos3: ', err3);
             res.send('Hubo un error al guardar los datos3.');
         }
-    const queryAsignacion = 'INSERT INTO asignacion_licencia (dui, id_licencia, vez, fecha_registro) VALUES (?, ?, ?, ?)';
-    connection.query(queryAsignacion, [dui, tipoLicencia, 1, citaTramite], (err4, result4) => {
+    const queryAsignacion = 'INSERT INTO asignacion_licencia (dui, id_licencia, vez, fecha_registro, estado) VALUES (?, ?, ?, ?, ?)';
+    connection.query(queryAsignacion, [dui, tipoLicencia, 1, citaTramite, 'Activo'], (err4, result4) => {
         if (err4) {
             console.error('Error al guardar los datos4: ', err4);
             res.send('Hubo un error al guardar los datos4.');
