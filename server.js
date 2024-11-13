@@ -6,9 +6,9 @@ const connection = require('./database'); // Import the database connection
 
 const app = express();
 const PORT = 8080;
-//Prueba
-// Middleware para procesar datos de formularios (para que req.body no esté vacío)
-app.use(express.urlencoded({ extended: true })); // Asegúrate de que los datos del formulario sean procesados correctamente
+
+// para que req.body no esté vacío
+app.use(express.urlencoded({ extended: true })); 
 // Serve static files from the public directory
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -104,25 +104,44 @@ app.post('/registrar_cita', (req, res) => {
     });
 });
 
-// Obtener licencia por primera vez y registrar cita 
+// app.js
 app.post('/licencia_nuevo', (req, res) => {
-    const { dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico } = req.body;
+    const { 
+      dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico,
+      tipoLicencia, citaTramite 
+    } = req.body;
   
-    // Validar campos vacíos
+  
+    //Campos vacío
     if (!dui || !nombreCompleto || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correoElectronico) {
-      return res.send('Por favor, complete todos los campos.');
+      return res.send('Por favor, complete todos los campos personales.');
     }
-
-    const query = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(query, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico], (err, result) => {
+  
+    if (!tipoLicencia || !citaTramite) {
+      return res.send('Por favor, complete los campos de la cita.');
+    }
+  
+    // Primero, insertar los datos en la tabla `persona`
+    const queryPersona = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(queryPersona, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico], (err, result) => {
       if (err) {
-        console.error('Error al guardar los datos: ', err);
-        res.send('Hubo un error al guardar los datos.');
-      } else {
-        res.send('Datos guardados correctamente.');
+        console.error('Error al guardar los datos en persona: ', err);
+        return res.send('Hubo un error al guardar los datos personales.');
       }
+    
+    const queryCitas = 'INSERT INTO citas (dui, tipo, fecha_cita) VALUES (?, ?, ?)';
+    connection.query(queryCitas, [dui, tipoLicencia, citaTramite], (err3, result3) => {
+        if (err3) {
+            console.error('Error al guardar los datos en citas: ', err3);
+            return res.send('Hubo un error al guardar los datos de la cita.');
+        }
+  
+          // Si todo va bien, enviar un mensaje de éxito
+        res.send('Datos guardados correctamente en ambas tablas.');
+        });
+      });
     });
-  });
+  
   
 
 // Start the server
