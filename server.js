@@ -39,6 +39,12 @@ app.get('/pago_infraccion', (req, res) => {
 app.get('/citas_programadas', (req, res) => {
     res.sendFile(path.join(__dirname, 'citas_programadas.html'));
 });
+app.get('/registro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'registro.html'));
+});
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
+});
 
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
@@ -216,7 +222,28 @@ app.post('/licencia_nuevo', (req, res) => {
     });
 });
   
+// Registro
+app.post('/registro', (req, res) => {
+    const { 
+      dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico, password} = req.body;
   
+    const queryPersona = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo, contra, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    connection.query(queryPersona, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico, password, 'user'], (err, result) => {
+        if (err) {
+            console.error('Error al guardar los datos: ', err);
+            res.send('Hubo un error al guardar los datos.');
+        }
+
+        res.send(`
+              <script>
+                alert('Se guardaron correctamente');
+                window.location.href = "/login";
+              </script>
+            `);
+        
+    });
+});
+
 
 //Pagar Infracción
 app.post('/pagar_infraccion', (req, res) => {

@@ -43,7 +43,7 @@
         <h2 class="fw-bold">Registro</h2>
 
         <h5 class="fw-semibold">Completa tus datos personales</h5>
-        <form  action="/licencia_nuevo" method="POST">
+        <form  action="/registro" method="POST">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label for="nombreCompleto" class="form-label">Nombre completo</label>
@@ -83,37 +83,17 @@
                     <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"placeholder="Correo electrónico" required title="Debe ser una dirección de correo válida, por ejemplo, usuario@dominio.com">
                 </div>
                 <div class="col-md-6">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-auto">
-                          <label for="inputPassword6" class="col-form-label">Contraseña</label>
-                        </div>
-                        <div class="col-auto">
-                          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-                        </div>
-                        <div class="col-auto">
-                          <span id="passwordHelpInline" class="form-text">
-                            Debe tener más de 8 caracteres
-                          </span>
-                        </div>
-                      </div>
+                    <label for="inputPassword6" class="col-form-label">Contraseña</label>
+                    <input type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelpInline">
+                    <span id="passwordHelpInline" class="form-text">Debe tener más de 8 caracteres</span>
                 </div>
                 <div class="col-md-6">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-auto">
-                          <label for="inputPassword6" class="col-form-label">Confirmar contraseña</label>
-                        </div>
-                        <div class="col-auto">
-                          <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
-                        </div>
-                        <div class="col-auto">
-                          <span id="passwordHelpInline" class="form-text">
-                            Debe tener más de 8 caracteres
-                          </span>
-                        </div>
-                      </div>
+                    <label for="inputPassword6" class="col-form-label">Contraseña</label>
+                    <input type="password" id="password1" name="password1" class="form-control" aria-describedby="passwordHelpInline">
+                    <span id="passwordHelpInline" class="form-text">Debe tener más de 8 caracteres</span>
                 </div>
             </div>
-        <div class="d-flex gap-3">
+        <div class="d-flex gap-3 my-3">
             <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
             <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrarse</button>
         </div>

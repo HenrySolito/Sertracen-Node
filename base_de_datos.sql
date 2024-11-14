@@ -58,3 +58,6 @@ CREATE TABLE citas (
 
 INSERT INTO licencias(categoria, edad_requerida) values ("Licencia Juvenil Vehículos Particulares",15),("Licencia Juvenil Motociclistas",18),
 ("Licencia Motociclistas",18),("Licencia Particular",18),("Licencia Pesada",18),("Licencia Pesada-T",21);
+
+ALTER TABLE persona ADD COLUMN tipo_usuario VARCHAR(5);
+ALTER TABLE persona ADD COLUMN contra VARCHAR(20)
