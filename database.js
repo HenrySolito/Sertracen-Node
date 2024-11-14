@@ -1,12 +1,12 @@
 // database.js
 const mysql = require('mysql2');
 
-// Crear una conexión con la base de datos
+// Conexión 
 const connection = mysql.createConnection({
-    host: 'localhost',    // Cambia esto si tu base de datos está en otro servidor
-    user: 'root',         // Usuario de la base de datos
-    password: '123456',     // Contraseña de la base de datos
-    database: 'licencia'  // Nombre de la base de datos que quieres usar
+    host: 'localhost',   
+    user: 'root',        
+    password: '123456',     
+    database: 'licencia'  
 });
 
 // Conectar a la base de datos

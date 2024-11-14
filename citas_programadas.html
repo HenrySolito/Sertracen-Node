@@ -99,19 +99,14 @@
     </footer>
 
     <script>
-        // Función para abrir el modal y llenar los datos
-        // Función para abrir el modal desde el botón y pasar los datos
+
 function openModalFromButton(button) {
-    // Extraemos el objeto JSON almacenado en el atributo 'data-persona'
+
     const persona = JSON.parse(button.getAttribute('data-persona'));
-    
-    // Llamamos a la función openModal pasando el objeto persona
     openModal(persona);
 }
 
-// Función para mostrar la información en el modal
         function openModal(persona) {
-            // Asignamos los valores a los elementos del modal
             document.getElementById('modalNombre').textContent = persona.nombre;
             document.getElementById('modalDUI').textContent = persona.dui;
             document.getElementById('modalFechaNacimiento').textContent = persona.fecha_nacimiento;
@@ -119,17 +114,13 @@ function openModalFromButton(button) {
             document.getElementById('modalFechaExpedicion').textContent = persona.fecha_registro;
             document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
             document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
-            
-            // Mostramos el modal
             document.getElementById('infoModal').style.display = 'flex';
         }
 
-        // Función para cerrar el modal
         function closeModal() {
             document.getElementById('infoModal').style.display = 'none';
         }
 
-        // Cargar las citas y agregar la tabla
         fetch('/api/citas_programadas')
             .then(response => response.json())
             .then(data => {

@@ -269,13 +269,11 @@
         
         const data = await response.json();
 
-        // Fill personal data fields
         if (data.persona) {
             document.getElementById("nombre").value = data.persona.nombre;
             document.getElementById("dui").value = dui;
             document.getElementById("telefono").value = data.persona.telefono;
 
-            // Format date to yyyy-MM-dd
             const date = new Date(data.persona.fecha_nacimiento);
             const formattedDate = date.toISOString().split('T')[0];
             document.getElementById("fecha_nacimiento").value = formattedDate;
@@ -285,14 +283,10 @@
             document.getElementById("genero").value = data.persona.genero;
             document.getElementById("correo").value = data.persona.correo;
         } else if (data.mensaje) {
-            alert(data.mensaje);  // Show message if no record is found
+            alert(data.mensaje);  
         }
-
-        // Display licenses or message if no licenses are registered
-        // Mostrar las licencias o el mensaje de "No tienes licencias registradas"
-        // Llenar las licencias asociadas al DUI
         const licenciasList = document.getElementById("licenciasList");
-        licenciasList.innerHTML = ""; // Limpiar la lista antes de llenarla
+        licenciasList.innerHTML = ""; 
 
         if (data.licencias && data.licencias.length > 0) {
             data.licencias.forEach((licencia) => {

@@ -24,7 +24,8 @@ CREATE TABLE asignacion_licencia (
     dui VARCHAR(10),
     id_licencia INT,
     vez INT,
-    fecha_registro DATE, /*Fecha vencimiento sera calculada*/
+    estado VARCHAR(10),
+    fecha_registro DATE, 
     FOREIGN KEY (dui) REFERENCES persona(dui),
     FOREIGN KEY (id_licencia) REFERENCES licencias(id_licencia)
 );

@@ -1,21 +1,22 @@
 // server.js
 const express = require('express');
 const path = require('path');
-const connection = require('./database'); // Import the database connection
+const connection = require('./database'); // conexion con la base
+
 
 
 const app = express();
 const PORT = 8080;
 
-// para que req.body no esté vacío
+// para que req.body no quede vacio
 app.use(express.urlencoded({ extended: true })); 
-// Serve static files from the public directory
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
 
-//Servidor de rutas para las vistas -------------------------------------------------------
+//Rutas para las vistas -------------------------------------------------------
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -64,12 +65,12 @@ app.get('/api/citas_programadas', (req, res) => {
         console.log('Error en la consulta:', err);
         return res.status(500).send('Error en la consulta');
       }
-      res.json(rows);  // Devuelve los registros con la información completa de la persona
+      res.json(rows);
     });
   });  
 
 //----------------------------------------------------------------------------
-// Route to handle buscar_por_dui
+// Buscar_por_dui
 app.get('/buscar_por_dui', (req, res) => {
     const dui = req.query.dui;
 
@@ -82,7 +83,6 @@ app.get('/buscar_por_dui', (req, res) => {
         WHERE al.dui = ?
     `;
 
-    // Ejecutar ambas consultas
     connection.query(personaQuery, [dui], (err, personaResults) => {
         if (err) {
             console.error("Error en la consulta de persona:", err);
@@ -96,7 +96,7 @@ app.get('/buscar_por_dui', (req, res) => {
                     return res.status(500).json({ error: 'Error al consultar las licencias' });
                 }
 
-                // Calcular la fecha de vencimiento agregando 5 años a cada licencia
+                // Calcular la fecha de vencimiento (5 años)
                 const licenciasConVencimiento = licenciasResults.map(licencia => {
                     const fechaRegistro = new Date(licencia.fecha_registro);
                     const fechaVencimiento = new Date(fechaRegistro);
@@ -176,7 +176,6 @@ app.post('/licencia_nuevo', (req, res) => {
       tipoLicencia, citaTramite 
     } = req.body;
   
-    //Verificacion de campos vacios
     if (!dui || !nombreCompleto || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correoElectronico) {
         alert("Por favor completa todos los campos de datos personales.");
         return;
@@ -220,7 +219,6 @@ app.post('/licencia_nuevo', (req, res) => {
   
 
 //Pagar Infracción
-// Endpoint to update infraction status to "Pagada"
 app.post('/pagar_infraccion', (req, res) => {
     const { id_ai } = req.body; // `id_ai` is the ID of the infraction assignment record
 
