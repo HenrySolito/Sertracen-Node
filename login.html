@@ -39,19 +39,19 @@
     </nav>
 
     <!--Login-->
-    <form class="m-5">
+    <form class="m-5" action="/login" method="POST">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">DUI</label>
-          <input type="text" class="form-control" id="dui-user" pattern="\d{8}-\d{1}" placeholder="00000000-0" required>
+          <input type="text" class="form-control" id="dui" name="dui" pattern="\d{8}-\d{1}" placeholder="00000000-0" required>
           <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-          <input type="password" class="form-control" id="contra">
+          <input type="password" class="form-control" id="password" name="password" required>
         </div>
         <div class="d-flex gap-3">
             <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
-            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrarse</button>
+            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Iniciar sesión</button>
         </div>
     </form>
 
