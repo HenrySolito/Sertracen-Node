@@ -37,6 +37,9 @@ app.get('/pago_infraccion', (req, res) => {
 app.get('/citas_programadas', (req, res) => {
     res.sendFile(path.join(__dirname, 'citas_programadas.html'));
 });
+app.get('/cita_programada', (req, res) => {
+    res.sendFile(path.join(__dirname, 'cita_programada.html'));
+});
 app.get('/registro', (req, res) => {
     res.sendFile(path.join(__dirname, 'registro.html'));
 });
@@ -197,7 +200,7 @@ app.post('/registro', (req, res) => {
         
     });
 });
-//Revisar si funciona la session
+/*Revisar si funciona la session
 app.use(bodyParser.urlencoded({ extended: true })); 
 // Configura el middleware de sesión 
 app.use(session({ 
@@ -243,7 +246,7 @@ app.get('/logout', (req, res) => {
             window.location.href = "/"; 
             </script> `); 
         }); 
-    });
+    });*/
 
 //Pagar Infracción
 app.post('/pagar_infraccion', (req, res) => {
@@ -262,6 +265,8 @@ app.post('/pagar_infraccion', (req, res) => {
         }
     });
 });
+
+
 
 
 // Start the server
