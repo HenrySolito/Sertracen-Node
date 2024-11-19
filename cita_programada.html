@@ -82,36 +82,37 @@
 
     <script>
       document.getElementById('generatePDF').addEventListener('click', function() {
-      const { jsPDF } = window.jspdf; // Importamos jsPDF
-      const doc = new jsPDF(); // Creamos un nuevo documento PDF
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF(); 
 
- // Logo (Asegúrate de tener el logo disponible o usa una URL de imagen)
- doc.addImage('/public/img/logo.png', 'PNG', 20, 20, 50, 50);
+      doc.addImage('/public/img/logo.png', 'PNG', 20, 15, 50, 25);
 
-// Información de contacto del centro
-doc.setFontSize(12);
-doc.text('Centro de Conducción', 80, 20);
-doc.text('Calle Ejemplo 123, Ciudad, País', 80, 30);
-doc.text('Tel: (123) 456-7890', 80, 40);
-doc.text('Email: contacto@centroconduccion.com', 80, 50);
+      // Información de contacto del centro
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('Sertracen', 80, 20);
+      doc.text('Calle 13, Santa Ana, El Salvador', 80, 25);
+      doc.text('Tel: (+503) 9456-7890', 80, 30);
+      doc.text('Email: sertracen@centroconduccion.com', 80, 35);
 
-// Título de la cita
-doc.setFontSize(18);
-doc.text('Comprobante de Cita para Licencia de Conducir', 20, 70);
+      // Título de la cita
+      doc.setFontSize(14);
+      doc.text('Comprobante de Cita para Licencia de Conducir', 20, 70);
 
-// Detalles de la cita
-doc.setFontSize(14);
-doc.text('Nombre del solicitante: Juan Pérez', 20, 90);
-doc.text('Tipo de Cita: Examen de conducción', 20, 100);
-doc.text('Fecha de cita: 20 de noviembre de 2024', 20, 110);
-doc.text('Hora: 10:00 AM', 20, 120);
-doc.text('Dirección: Calle Ejemplo 123, Ciudad, País', 20, 130);
+      // Detalles de la cita
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(12);
+      doc.text('Nombre del solicitante: Juan Pérez', 20, 90);
+      doc.text('Tipo de Cita: Examen de conducción', 20, 100);
+      doc.text('Fecha de cita: 20 de noviembre de 2024', 20, 110);
+      doc.text('Hora: 10:00 AM', 20, 120);
+      doc.text('Dirección: Calle Ejemplo 123, Ciudad, País', 20, 130);
 
-// Notas
-doc.setFontSize(12);
-doc.text('Notas:', 20, 150);
-doc.text('- Llegar 15 minutos antes de la cita', 20, 160);
-doc.text('- Traer identificación y permiso provisional', 20, 170);
+      // Notas
+      doc.setFontSize(12);
+      doc.text('Notas:', 20, 150);
+      doc.text('- Llegar 15 minutos antes de la cita', 20, 160);
+      doc.text('- Traer identificación y permiso provisional', 20, 170);
 
       // Guardamos el PDF con un nombre
       doc.save('comprobante_cita.pdf');
