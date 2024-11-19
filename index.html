@@ -1,158 +1,86 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal en Línea</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="/public/css/main.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .card {
+      border-radius: 15px;
+    }
+    .btn-primary {
+      background-color: #003B86;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <img src="/public/img/logo_sertracen.svg" alt="logo" width="30%">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Inicio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/sobre_nosotros">Sobre Nosotros</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/creacion_cita">Citas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/citas_programadas">Citas programadas</a>
-                    </li>
-                </ul>
-            </div>
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">      
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+            <img src="./public/img/logo_sertracen.svg" alt="Logo" style="width: 100px; height: auto;">
+          </div>
+      <h4 class="text-center mb-4">Iniciar Sesión</h4>
+      <form id="formLogin" method="POST" action="/login">
+        <div class="mb-3">
+            <label for="dui" class="form-label">DUI</label>
+            <input placeholder="12345678-9" maxlength="10" class="form-control" name="dui" id="dui" required>
         </div>
-    </nav>
-
-    <!-- Sección de Bienvenida -->
-    <div class="container my-5">
-        <div class="row align-items-center">
-            <div class="col-md-5">
-                <h1 class="fw-bold mt-4">Bienvenido al Portal <span style="color: #003B85;">en Línea</span></h1>
-                <p>Ahora más rápido, fácil y seguro</p>
-                <div class=" d-flex gap-3 mt-5">
-                    <a href="/creacion_cita" class="btn btntexto btn-warning text-black d-flex align-items-center gap-2">
-                        <i class="ri-calendar-check-fill"></i> <b>Crea tu cita</b>
-                    </a>
-                    <a href="/pago_infraccion" class="btnInfracciones d-flex align-items-center gap-2">
-                        <i class="ri-error-warning-line"></i> Consulta de Infracciones
-                    </a>
-                </div>
-                <div>
-                    <img src="/public/img/logo_sertracen.svg" class="logo_margen" width="20%">
-                </div>
-            </div>
-            <div class="col-md-7">
-                <br>
-                <img src="/public/img/inicio_imagen.jpg" alt="Imagen de bienvenida" width="100%" class="img-fluid">
-            </div>
+        <div class="mb-3">
+            <label for="contra" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" name="contra" id="contra" required>
         </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </div>
+        <div class="mt-3 text-center">
+            <p class="small">¿No tienes cuenta? <a href="/crear_usuario.html">Regístrate aquí</a></p>
+        </div>
+    </form>
+    
+    
+    
     </div>
-
-    <!-- Sección de Revisión de Infracciones -->
-    <div class="seccion-infracciones text-white text-center py-5">
-        <div class="contenedor">
-            <h2 class="titulo-principal fw-bold text-warning">Revisión de Infracciones de Licencias de Conducir</h2>
-            <p class="subtitulo">Simplificamos la revisión de infracciones para ayudarte a estar al día.</p>
-        </div>
-    </div>
-
-    <!-- Licencias Disponibles -->
-    <div class="container my-5">
-        <h3 class="fw-bold mb-4">Puedes tramitar las siguientes licencias</h3>
-        <div class="row d-flex flex-wrap  justify-content-center row-cols-1 row-cols-md-3 g-4">
-            <div class="pruebaCard">
-                <div class="licencia-box">
-                    <h5 class="titulo2 fw-bold">Licencia Juvenil Para Vehículos Particulares</h5><br>
-                    <p class="edad">15 <br><span class="anios">años</span></p>
-                </div>
-            </div>
-            
-            <div class="col">
-                <div class="pruebaCard">
-                    <div class="licencia-box">
-                        <h5 class="titulo2 fw-bold">Licencia Pesada-T</h5><br>
-                        <p class="edad">21  <br><span class="anios">años</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="pruebaCard">
-                    <div class="licencia-box">
-                        <h5 class="titulo2 fw-bold">Licencia Motociclistas</h5><br>
-                        <p class="edad">18  <br><span class="anios">años</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="pruebaCard">
-                    <div class="licencia-box">
-                        <h5 class="titulo2 fw-bold">Licencia Pesada</h5><br>
-                        <p class="edad">18  <br><span class="anios">años</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="pruebaCard">
-                    <div class="licencia-box">
-                        <h5 class="titulo2 fw-bold">Licencia Particular</h5><br>
-                        <p class="edad">18  <br><span class="anios">años</span></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="pruebaCard">
-                    <div class="licencia-box">
-                        <h5 class="titulo2 fw-bold">Licencia Juvenil Motociclistas</h5><br>
-                        <p class="edad">18  <br><span class="anios">años</span></p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Horarios de Atención -->
-    <div class="bg-warning py-5">
-        <div class="container">
-            <h3 style="color:#003B86;" class="fw-bold">Horarios de atención</h3>
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h5 class="fw-bold">Lunes a Viernes</h5>
-                    <p class="fw-bold fst-italic"><i class="ri-time-line"></i> 9:00 a.m. - 5:00 p.m.</p>
-                    <p class="fw-medium">Atención completa en todas las áreas: administrativa, atención al cliente y soporte técnico.</p>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="fw-bold">Sábado</h5>
-                    <p class="fw-bold fst-italic"><i class="ri-time-line"></i> 9:00 a.m. - 1:00 p.m.</p>
-                    <p class="fw-medium">Disponibilidad limitada en atención al cliente y soporte técnico.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-3">
-        <p class="mb-0">SERTRACEN</p>
-        <p class="mb-0">Copyright <i class="ri-copyright-line fs-6"></i> - 2024</p>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  </div>
 </body>
+
+
+<script>
+    document.getElementById("formLogin").addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const dui = document.getElementById("dui").value;
+    const contra = document.getElementById("contra").value;
+
+    try {
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ dui, contra })
+        });
+
+        if (!response.ok) {
+            throw new Error("Error en la solicitud: " + response.status);
+        }
+
+        const data = await response.json(); // Asegúrate de que el servidor devuelve JSON
+        alert(data.message);
+
+        if (response.status === 200) {
+            window.location.href = "/inicio.html"; // Redirige al inicio si es exitoso
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        alert("Hubo un problema al iniciar sesión.");
+    }
+});
+
+</script>
 </html>

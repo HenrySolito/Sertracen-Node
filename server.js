@@ -18,11 +18,43 @@ app.use(express.json());
 
 // Vistas Login y Crear usuario-----------------------------------------------------------
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 app.get('/crear_usuario', (req, res) => {
     res.sendFile(path.join(__dirname, 'crear_usuario.html'));
 });
+
+app.get('/inicio', (req, res) => {
+    res.sendFile(path.join(__dirname, 'inicio.html'));
+});
+
+app.get('/creacion_cita', (req, res) => {
+    res.sendFile(path.join(__dirname, 'creacion_cita.html'));
+});
+
+app.get('/renovacion_tramite', (req, res) => {
+    res.sendFile(path.join(__dirname, 'renovacion_tramite.html'));
+});
+app.get('/sobre_nosotros', (req, res) => {
+    res.sendFile(path.join(__dirname, 'sobre_nosotros.html'));
+});
+//Se va a borrar
+app.get('/primera_cita', (req, res) => {
+    res.sendFile(path.join(__dirname, 'primera_cita.html'));
+});
+app.get('/pago_infraccion', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pago_infraccion.html'));
+});
+app.get('/citas_programadas', (req, res) => {
+    res.sendFile(path.join(__dirname, 'citas_programadas.html'));
+});
+app.get('/cita_programada', (req, res) => {
+    res.sendFile(path.join(__dirname, 'cita_programada.html'));
+});
+app.get('/registro', (req, res) => {
+    res.sendFile(path.join(__dirname, 'registro.html'));
+});
+
 
 //Crear Usuario------------------------------------------------
 app.post('/crear_usuario', (req, res) => {
@@ -96,52 +128,22 @@ app.post('/login', (req, res) => {
 
         if (results.length > 0) {
             // Redirige al `index.html` si las credenciales son correctas
-            res.status(200).json({redirect: '/index' });
+            res.status(200).json({message: 'Credenciales Correctas', redirect: '/inicio' });
         } else {
-            res.status(401).json({ message: 'Credenciales incorrectas' });
+            res.status(401).send(`
+                <script>
+                    alert('Credenciales incorrectas.');
+                    window.location.href = "/";
+                </script>
+            `);
         }
     });
 });
 
 
 
-
-
 //---------------------------------------------
 
-app.get('/index', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
-app.get('/creacion_cita', (req, res) => {
-    res.sendFile(path.join(__dirname, 'creacion_cita.html'));
-});
-
-app.get('/renovacion_tramite', (req, res) => {
-    res.sendFile(path.join(__dirname, 'renovacion_tramite.html'));
-});
-app.get('/sobre_nosotros', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sobre_nosotros.html'));
-});
-//Se va a borrar
-app.get('/primera_cita', (req, res) => {
-    res.sendFile(path.join(__dirname, 'primera_cita.html'));
-});
-app.get('/pago_infraccion', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pago_infraccion.html'));
-});
-app.get('/citas_programadas', (req, res) => {
-    res.sendFile(path.join(__dirname, 'citas_programadas.html'));
-});
-app.get('/cita_programada', (req, res) => {
-    res.sendFile(path.join(__dirname, 'cita_programada.html'));
-});
-app.get('/registro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'registro.html'));
-});
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'login.html'));
-});
 
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
