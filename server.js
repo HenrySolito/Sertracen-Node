@@ -10,13 +10,109 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname));
 app.use(express.json());
 
 
 //Rutas para las vistas -------------------------------------------------------
+
+// Vistas Login y Crear usuario-----------------------------------------------------------
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'login.html'));
+});
+app.get('/crear_usuario', (req, res) => {
+    res.sendFile(path.join(__dirname, 'crear_usuario.html'));
+});
+
+//Crear Usuario------------------------------------------------
+app.post('/crear_usuario', (req, res) => {
+    const { dui, nombre, telefono, fechaNacimiento, tipoSangre, direccion, genero, correo, contra } = req.body;
+
+    if (!dui || !nombre || !telefono || !fechaNacimiento || !tipoSangre || !direccion || !genero || !correo || !contra) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+        
+    }
+
+    // Verificar si el DUI ya existe
+    const verificarDUIQuery = 'SELECT * FROM persona WHERE dui = ?';
+    connection.query(verificarDUIQuery, [dui], (err, results) => {
+        if (err) {
+            console.error('Error al verificar el DUI:', err);
+            return res.status(500).json({ error: 'Error al verificar el DUI.' });
+        }
+
+        if (results.length > 0) {
+            // Si el DUI ya existe, no se realiza la inserción
+            return res.status(400).send(`
+              <script>
+                alert('El DUI ya está registrado.');
+                window.location.href = "/crear_usuario";
+              </script>
+            `);
+        }
+
+        // Si el DUI no existe, realizar la inserción
+        const insertarUsuarioQuery = `
+            INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo, contra, tipo_usuario)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'usuario')
+        `;
+        connection.query(
+            insertarUsuarioQuery,
+            [dui, nombre, telefono, fechaNacimiento, tipoSangre, direccion, genero, correo, contra],
+            (err2, results2) => {
+                if (err2) {
+                    console.error('Error al crear usuario:', err2);
+                    return res.status(500).json({ error: 'Error al registrar el usuario.' });
+                }
+
+                res.status(200).send(`
+                  <script>
+                    alert('Usuario registrado exitosamente.');
+                    window.location.href = "/login";
+                  </script>
+                `);
+            }
+        );
+    });
+});
+
+
+
+//Ruta para Login------------------------------------------------------
+app.post('/login', (req, res) => {
+    const { dui, contra } = req.body;
+
+    if (!dui || !contra) {
+        return res.status(400).json({ message: 'DUI y contraseña son requeridos' });
+    }
+
+    // Modificamos la consulta para la tabla 'persona'
+    const query = 'SELECT * FROM persona WHERE dui = ? AND contra = ?';
+    connection.query(query, [dui, contra], (err, results) => {
+        if (err) {
+            console.error('Error en la base de datos:', err);
+            return res.status(500).json({ message: 'Error en el servidor' });
+        }
+
+        if (results.length > 0) {
+            // Redirige al `index.html` si las credenciales son correctas
+            res.status(200).json({redirect: '/index' });
+        } else {
+            res.status(401).json({ message: 'Credenciales incorrectas' });
+        }
+    });
+});
+
+
+
+
+
+//---------------------------------------------
+
+app.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
+
 app.get('/creacion_cita', (req, res) => {
     res.sendFile(path.join(__dirname, 'creacion_cita.html'));
 });
