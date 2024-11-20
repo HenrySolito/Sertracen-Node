@@ -83,15 +83,36 @@
         <div id="infoModal" class="modal">
             <div class="modal-content">
                 <span class="close-btn" onclick="closeModal()">&times;</span>
-                <h3>Licencia de Conducir</h3>
-                <img id="profilePhoto" src="./public/img/perfil.png" alt="Foto de Perfil" class="profile-photo">
-                <p><strong>Nombre:</strong> <span id="modalNombre"></span></p>
-                <p><strong>DUI:</strong> <span id="modalDUI"></span></p>
-                <p><strong>Fecha de Nacimiento:</strong> <span id="modalFechaNacimiento"></span></p>
-                <p><strong>Dirección:</strong> <span id="modalDireccion"></span></p>
-                <p><strong>Fecha de Expedición:</strong> <span id="modalFechaExpedicion"></span></p>
-                <p><strong>Tipo de Licencia:</strong> <span id="modalTipoLicencia"></span></p>
-                <p><strong>Grupo Sanguíneo:</strong> <span id="modalTipoSangre"></span></p>
+                <div class="license-container">
+                  <div class="card-license license-front">
+                    <div class="license-header">
+                        <h5>Licencia de Conducir  <i> (Driver License)</i></h5> 
+                         <p>República de El Salvador</p>
+                      </div>
+                    <div class="d-flex align-items-center m-3">
+                      <img id="profilePhoto" src="./public/img/perfil.png" alt="Foto de perfil">
+                      <div class="license-details">
+                        <p><strong>Nombre: </strong><span id="modalNombre"></span></p>
+                        <p><strong>ID:</strong><span id="modalDUI"></span></p>
+                        <p><strong>Fecha de Expiración:</strong>  <span id="modalFechaExpedicion"></span></p>
+                        <p><strong><span id="modalTipoLicencia"></span></strong></p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="card-license license-back p-3">
+                    <h5><strong>Información Adicional</strong></h5>
+                    <div class="license-details">
+                      <p><strong>Fecha de Nacimiento: </strong><span id="modalFechaNacimiento"></span></p>
+                      <p><strong>Dirección: </strong><span id="modalDireccion"></span></p>
+                      <p><strong>Grupo Sanguíneo:</strong> <span id="modalTipoSangre"></span></p>
+                      <p><strong>Restricciones:</strong> Ninguna</p>
+                      <p><strong>Teléfono:</strong> (+503) <span id="modalTelefono"></p>
+                      <p><strong>Fecha de Emisión:</strong>  <span id="modalFechaEmision"></span></p>
+                      <p><strong>Firma:</strong> ____________________</p>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
 
@@ -109,11 +130,13 @@
       function openModal(persona) {
           document.getElementById('modalNombre').textContent = persona.nombre;
           document.getElementById('modalDUI').textContent = persona.dui;
-          document.getElementById('modalFechaNacimiento').textContent = persona.fecha_nacimiento;
+          document.getElementById('modalFechaNacimiento').textContent = formatFecha(persona.fecha_nacimiento);
           document.getElementById('modalDireccion').textContent = persona.direccion;
-          document.getElementById('modalFechaExpedicion').textContent = persona.fecha_registro;
+          document.getElementById('modalFechaExpedicion').textContent = formatFecha(persona.fecha_registro);
           document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
           document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
+          document.getElementById('modalTelefono').textContent = persona.telefono;
+          document.getElementById('modalFechaEmision').textContent = formatFecha(persona.fecha_cita);
           document.getElementById('infoModal').style.display = 'flex';
       }
   

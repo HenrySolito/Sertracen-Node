@@ -110,7 +110,7 @@ app.post('/crear_usuario', (req, res) => {
                 res.status(200).send(`
                   <script>
                     alert('Usuario registrado exitosamente.');
-                    window.location.href = "/login";
+                    window.location.href = "/";
                   </script>
                 `);
             }
@@ -172,13 +172,14 @@ app.get('/logout', (req, res) => {
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
       SELECT  p.nombre, p.dui, p.fecha_nacimiento, p.direccion, p.tipo_sangre, l.categoria AS tipo_licencia, 
-      al.fecha_registro AS fecha_registro,c.fecha_cita,al.estado  
+      al.fecha_registro AS fecha_registro,c.fecha_cita,al.estado, p.genero, p.telefono  
       FROM persona p 
       INNER JOIN citas c ON c.dui = p.dui
       INNER JOIN asignacion_licencia al ON al.dui = p.dui
-      INNER JOIN licencias l ON l.id_licencia = al.id_licencia
-      WHERE al.estado = 'Activo'
-    `;
+      INNER JOIN licencias l ON l.id_licencia = al.id_licencia 
+      `;
+    //  WHERE al.estado = 'Activo'
+   // `;
     
     connection.query(query, (err, rows) => {
       if (err) {
@@ -207,8 +208,9 @@ app.get('/api/citas_programadas', (req, res) => {
       INNER JOIN citas c ON c.dui = p.dui
       INNER JOIN asignacion_licencia al ON al.dui = p.dui
       INNER JOIN licencias l ON l.id_licencia = al.id_licencia
-      WHERE al.estado = 'Activo' AND p.dui = ?
+      WHERE p.dui = ?
     `;
+    //WHERE al.estado = 'Activo' AND 
     
     connection.query(query, [duiUsuario], (err, rows) => {
       if (err) {
@@ -218,7 +220,25 @@ app.get('/api/citas_programadas', (req, res) => {
       res.json(rows);
     });
   });
-  
+
+//Borrar cita
+app.delete('/api/cita_programada/:id', (req, res) => {
+    const id_cita = req.params.id;
+
+    const query = 'DELETE FROM citas WHERE id_cita = ?';
+    connection.query(query, [id_cita], (error, results) => {
+        if (error) {
+            console.error('Error al eliminar la cita:', error);
+            return res.status(500).json({ message: 'Error interno del servidor' });
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ message: 'Cita no encontrada' });
+        }
+
+        return res.status(200).json({ message: 'Cita eliminada correctamente' });
+    });
+});
 
 //----------------------------------------------------------------------------
 // Buscar_por_dui

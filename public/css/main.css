@@ -196,7 +196,7 @@ p, h1, h2, h3, label, a, li, h5, h4, i, option, input {
     padding: 20px;
     border-radius: 5px;
     width: 80%;
-    max-width: 600px;
+    max-width: 950px;
 }
 .close-btn {
     float: right;
@@ -207,3 +207,35 @@ p, h1, h2, h3, label, a, li, h5, h4, i, option, input {
     width: 60px;
     height: 60px;
 }
+.license-container {
+    width: 900px; /* Tamaño más pequeño */
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+  }
+  .card-license {
+    width: 48%; /* Para que se acomoden uno al lado del otro */
+    border: 2px solid #000;
+    border-radius: 10px;
+  }
+  .license-header {
+    background-color: #636262; 
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  .license-front img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .license-details {
+    text-align: left;
+  }
+  .license-details p {
+    margin: 5px 0;
+  }
