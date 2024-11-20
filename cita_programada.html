@@ -132,7 +132,7 @@
           return `${day}-${month}-${year} ${hours}:${minutes}`;
       }
   
-      fetch('/api/cita_programada')
+  fetch('/api/cita_programada')
   .then(response => response.json())
   .then(data => {
       // Ordenar los datos por fecha_cita

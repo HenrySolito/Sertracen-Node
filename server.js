@@ -193,7 +193,6 @@ app.get('/api/citas_programadas', (req, res) => {
   
   //Cita programada del usuario para vista Usuario
   app.get('/api/cita_programada', (req, res) => {
-    // Verifica que la sesión esté disponible
     console.log("Sesión del usuario:", req.session.user);
   
     const duiUsuario = req.session.user?.dui;
@@ -201,7 +200,6 @@ app.get('/api/citas_programadas', (req, res) => {
     if (!duiUsuario) {
       return res.status(401).send('No autorizado. El usuario no está logeado.');
     }
-  
     const query = `
       SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, c.id_cita, al.estado  
       FROM persona p 
@@ -221,7 +219,7 @@ app.get('/api/citas_programadas', (req, res) => {
     });
   });
 
-//Borrar cita
+//Borrar cita-------------------------------------------------
 app.delete('/api/cita_programada/:id', (req, res) => {
     const id_cita = req.params.id;
 
@@ -366,12 +364,13 @@ function registrarCita(dui, tipoLicencia, fechaCita, res) {
     });
 }
 
-
-
-
-//Busqueda de infracciones
+//Infracciones del usuario------------------------------------
 app.get('/buscar_infracciones', (req, res) => {
-    const dui = req.query.dui;
+    const dui = req.session.user?.dui;
+  
+    if (!dui) {
+      return res.status(401).send('No autorizado. El usuario no está logeado.');
+    }
 
     const query = `
       SELECT 
@@ -386,7 +385,7 @@ app.get('/buscar_infracciones', (req, res) => {
       FROM asignacion_infraccion ai
       JOIN infracciones i ON ai.id_infraccion = i.id_infraccion
       WHERE ai.dui = ?
-    `;
+    `; 
 
     connection.query(query, [dui], (err, results) => {
         if (err) {
@@ -399,6 +398,7 @@ app.get('/buscar_infracciones', (req, res) => {
         }
     });
 });
+
 // Obtener licencia por primera vez y registrar cita 
 app.post('/primera_cita', (req, res) => {
     if (!req.session.user) { 

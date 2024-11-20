@@ -68,26 +68,6 @@
         para continuar con la renovación de tu licencia.
       </p>
 
-      <!-- Formulario de búsqueda de infracciones -->
-      <form class="mb-4">
-        <div class="input-group">
-          <input
-            type="text"
-            id="duiInput"
-            class="form-control"
-            placeholder="Ingresa tu DUI para consultar tu estado"
-            aria-label="DUI"
-          />
-          <button
-            id="searchButton"
-            class="btn btn-warning text-white"
-            type="button"
-          >
-            <i class="bi bi-search"></i> Buscar
-          </button>
-        </div>
-      </form>
-
       <!-- Resultados de búsqueda -->
       <h5 class="fw-semibold mt-4">Resultados</h5>
       <p>
@@ -102,7 +82,7 @@
           <thead class="table-light">
             <tr>
               <th>N° de Infracción</th>
-              <th>Nombre</th>
+              <th>Infracción</th>
               <th>Clasificación</th>
               <th>Tarifa</th>
               <th>Estado</th>
@@ -120,15 +100,6 @@
           </tbody>
         </table>
       </div>
-
-      <!-- Botón de limpiar resultado 
-      <div class="mt-4">
-        <a href="./pago_sin_infraccion.html">
-          <button class="btn btn-outline-primary" type="button">
-            Limpiar resultado
-          </button>
-        </a>
-      </div>-->
     </div>
 
     <!-- Footer -->
@@ -140,43 +111,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
-    <script>
-        document.getElementById("searchButton").addEventListener("click", fetchInfractions);
-      
-        async function fetchInfractions() {
-          const dui = document.getElementById("duiInput").value;
-      
-          if (!dui) {
-            alert("Por favor ingresa un DUI válido.");
-            return;
+   <script>
+    // Función para formatear la fecha en formato dd-mm-yyyy hh:mm
+    function formatFecha(fecha) {
+      const date = new Date(fecha);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses empiezan desde 0
+      const year = date.getFullYear();
+      return `${day}-${month}-${year}`;
+    }
+    
+    fetch('/buscar_infracciones')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Error al cargar los datos');
           }
-      
-          try {
-            const response = await fetch(`http://localhost:8080/buscar_infracciones?dui=${dui}`);
-            const data = await response.json();
-      
-            if (response.ok) {
-              populateInfractionsTable(data.infractions);
-            } else {
-              alert(data.error || "No se encontraron infracciones.");
-              clearInfractionsTable();
-            }
-          } catch (error) {
-            console.error("Error al realizar la solicitud:", error);
-            alert("Hubo un problema al consultar las infracciones.");
-          }
-        }
-      
-        function populateInfractionsTable(infractions) {
+          return response.json();
+      })
+      .then(data => {
+          // Ordenar los datos por fecha_infraccion
+          data.infractions.sort((a, b) => {
+              const fechaA = new Date(a.fecha_infraccion);
+              const fechaB = new Date(b.fecha_infraccion);
+              return fechaA - fechaB; // Orden ascendente
+          });
+    
           const tbody = document.querySelector("tbody");
           tbody.innerHTML = "";
       
-          if (infractions.length === 0) {
+          if (data.infractions.length === 0) {
             tbody.innerHTML = "<tr><td colspan='8'>No se encontraron infracciones.</td></tr>";
             return;
           }
       
-          infractions.forEach((infraction) => {
+          data.infractions.forEach((infraction) => {
             const row = document.createElement("tr");
             row.innerHTML = `
               <td>${infraction.id_ai}</td>
@@ -184,81 +152,21 @@
               <td>${infraction.clasificacion}</td>
               <td>$${infraction.tarifa.toFixed(2)}</td>
               <td>${infraction.estado}</td>
-              <td>${infraction.fecha_infraccion}</td>
-              <td>${infraction.fecha_vencimiento}</td>
+              <td>${formatFecha(infraction.fecha_infraccion)}</td>
+              <td>${formatFecha(infraction.fecha_vencimiento)}</td>
               <td class="text-center">
-                <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción">
+                <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción" onclick="pagarInfraccion(${infraction.id_ai})">
                   <i class="bi bi-currency-dollar"></i>
                 </button>
               </td>
             `;
             tbody.appendChild(row);
           });
-        }
-      
-        function clearInfractionsTable() {
-          const tbody = document.querySelector("tbody");
-          tbody.innerHTML = "<tr><td colspan='8'>No hay resultados para mostrar.</td></tr>";
-        }
-      </script>
-
-<script>
-    document.getElementById("searchButton").addEventListener("click", fetchInfractions);
-  
-    async function fetchInfractions() {
-      const dui = document.getElementById("duiInput").value;
-  
-      if (!dui) {
-        alert("Por favor ingresa un DUI válido.");
-        return;
-      }
-  
-      try {
-        const response = await fetch(`http://localhost:8080/buscar_infracciones?dui=${dui}`);
-        const data = await response.json();
-  
-        if (response.ok) {
-          populateInfractionsTable(data.infractions);
-        } else {
-          alert(data.error || "No se encontraron infracciones.");
-          clearInfractionsTable();
-        }
-      } catch (error) {
-        console.error("Error al realizar la solicitud:", error);
-        alert("Hubo un problema al consultar las infracciones.");
-      }
-    }
-  
-    function populateInfractionsTable(infractions) {
-      const tbody = document.querySelector("tbody");
-      tbody.innerHTML = "";
-  
-      if (infractions.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='8'>No se encontraron infracciones.</td></tr>";
-        return;
-      }
-  
-      infractions.forEach((infraction) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${infraction.id_ai}</td>
-          <td>${infraction.tipo_infraccion}</td>
-          <td>${infraction.clasificacion}</td>
-          <td>$${infraction.tarifa.toFixed(2)}</td>
-          <td>${infraction.estado}</td>
-          <td>${infraction.fecha_infraccion}</td>
-          <td>${infraction.fecha_vencimiento}</td>
-          <td class="text-center">
-            <button class="btn btn-outline-primary btn-sm" title="Pagar Infracción" onclick="pagarInfraccion(${infraction.id_ai})">
-              <i class="bi bi-currency-dollar"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(row);
+      })
+      .catch(error => {
+          console.error('Error al cargar los datos:', error);
       });
-    }
-  
-    // Function to handle paying the infraction
+          // Funcion para pagar infraccion
     async function pagarInfraccion(id_ai) {
       try {
         const response = await fetch(`http://localhost:8080/pagar_infraccion`, {
@@ -282,15 +190,7 @@
         alert("Hubo un problema al pagar la infracción.");
       }
     }
-  
-    function clearInfractionsTable() {
-      const tbody = document.querySelector("tbody");
-      tbody.innerHTML = "<tr><td colspan='8'>No hay resultados para mostrar.</td></tr>";
-    }
-  </script>
-  
-      
-      
-      
+    </script>
+    
   </body>
 </html>
