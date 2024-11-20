@@ -34,6 +34,7 @@
         <p class="text-muted">Completa el siguiente formulario para solicitar tu cita y tramitar tu licencia de conducir.</p>
         
         <!-- Selección de Tipo de Licencia y Fecha de Cita -->
+    <form id="modificarCitaForm">
         <div class="mb-3 mt-4">
             <h5 class="fw-semibold">Datos de tu cita</h5>
             <label for="tipoLicencia" class="form-label">Tipo de licencia que desea adquirir</label>
@@ -58,7 +59,9 @@
         
         <div class="d-flex gap-3">
             <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
-            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrar Cita</button>
+            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">
+                Guardar Cambios
+            </button>            
         </div>
     </div>
         </form>
@@ -90,4 +93,58 @@
             });
     </script>
 </body>
+
+
+<script>
+    // Get the appointment ID from the URL
+    const params = new URLSearchParams(window.location.search);
+    const citaId = params.get('id');
+
+    // Load existing appointment details
+    async function loadAppointmentDetails() {
+        try {
+            const response = await fetch(`/api/modificar_cita/${citaId}`);
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('tipoLicencia').value = data.cita.tipo;
+                document.getElementById('citaTramite').value = new Date(data.cita.fecha_cita).toISOString().slice(0, 16);
+            } else {
+                alert('Error al cargar los detalles de la cita.');
+                window.location.href = '/citas_programadas'; // Redirect if the appointment is not found
+            }
+        } catch (error) {
+            console.error('Error al cargar los detalles de la cita:', error);
+        }
+    }
+
+    // Submit the updated appointment details
+    document.getElementById('modificarCitaForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const tipoLicencia = document.getElementById('tipoLicencia').value;
+        const fechaCita = document.getElementById('citaTramite').value;
+
+        try {
+            const response = await fetch(`/api/modificar_cita/${citaId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tipoLicencia, fechaCita })
+            });
+
+            if (response.ok) {
+                alert('Cita modificada exitosamente.');
+                window.location.href = '/citas_programadas';
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error || 'Error al modificar la cita.');
+            }
+        } catch (error) {
+            console.error('Error al enviar los datos de la cita:', error);
+        }
+    });
+
+    // Call the function to load appointment details on page load
+    loadAppointmentDetails();
+</script>
+
 </html>

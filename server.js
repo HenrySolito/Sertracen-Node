@@ -219,6 +219,54 @@ app.get('/api/citas_programadas', (req, res) => {
     });
   });
 
+
+
+//Modificar Cita-------------------------------------------------
+app.get('/api/modificar_cita/:id', (req, res) => {
+    const { id } = req.params;
+
+    const query = 'SELECT * FROM citas WHERE id_cita = ?';
+    connection.query(query, [id], (err, results) => {
+        if (err) {
+            console.error('Error al obtener la cita:', err);
+            return res.status(500).json({ error: 'Error al obtener la cita' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada' });
+        }
+
+        res.status(200).json({ cita: results[0] });
+    });
+});
+
+
+app.post('/api/modificar_cita/:id', (req, res) => {
+    const { id } = req.params;
+    const { tipoLicencia, fechaCita } = req.body;
+
+    if (!tipoLicencia || !fechaCita) {
+        return res.status(400).json({ error: 'Todos los campos son obligatorios.' });
+    }
+
+    const query = 'UPDATE citas SET tipo = ?, fecha_cita = ? WHERE id_cita = ?';
+    connection.query(query, [tipoLicencia, fechaCita, id], (err, results) => {
+        if (err) {
+            console.error('Error al actualizar la cita:', err);
+            return res.status(500).json({ error: 'Error al actualizar la cita' });
+        }
+
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Cita no encontrada.' });
+        }
+
+        res.status(200).json({ message: 'Cita actualizada exitosamente.' });
+    });
+});
+
+
+
+
 //Borrar cita-------------------------------------------------
 app.delete('/api/cita_programada/:id', (req, res) => {
     const id_cita = req.params.id;
