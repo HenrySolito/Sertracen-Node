@@ -58,7 +58,13 @@ protectedPages.forEach(page => {
     });
 });
 
-
+// Configuración de express-session
+app.use(session({
+    secret: 'mi_secreto',   // Cambia esto por un valor secreto seguro
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }  // Asegúrate de que 'secure: true' si usas HTTPS
+  }));
 
 //Crear Usuario------------------------------------------------
 app.post('/crear_usuario', (req, res) => {
@@ -146,6 +152,7 @@ app.post('/login', (req, res) => {
                 </script>
             `);
         }
+        
     });
 });
 
@@ -184,14 +191,15 @@ app.get('/api/citas_programadas', (req, res) => {
   
   //Cita programada del usuario para vista Usuario
   app.get('/api/cita_programada', (req, res) => {
-    // Asegúrate de que el DUI esté disponible en la sesión del usuario
-    const duiUsuario = req.session.dui; // Suponiendo que el DUI del usuario está almacenado en la sesión
-    
+    // Verifica que la sesión esté disponible
+    console.log("Sesión del usuario:", req.session.user);
+  
+    const duiUsuario = req.session.user?.dui;
+  
     if (!duiUsuario) {
       return res.status(401).send('No autorizado. El usuario no está logeado.');
     }
   
-    // Actualizamos la consulta para que filtre por el DUI del usuario logeado
     const query = `
       SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, al.estado  
       FROM persona p 
