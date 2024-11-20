@@ -14,7 +14,7 @@ app.use(express.static(__dirname));
 app.use(express.json());
 
 app.use(session({
-    secret: 'clave_secreta', // Cambia esta clave por una más segura
+    secret: 'clave_secreta',
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 3600000 } // 1 hora
