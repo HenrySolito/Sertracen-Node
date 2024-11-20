@@ -29,22 +29,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/sobre_nosotros"
-                >Sobre Nosotros</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/creacion_cita">Citas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Cerrar Sesión</a>
-          </li>
-          </ul>
+          
         </div>
       </div>
     </nav>
@@ -72,7 +57,6 @@
           </tbody>
         </table>
       </div>
-    <button type="reset" class="btn btn-outline-primary fw-bold rounded-4" id="generatePDF">Exportar comprobante en pdf</button>
   </div>
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
@@ -205,5 +189,22 @@ function generarPDF(id_cita) {
     doc.save('comprobante_cita.pdf');
 }
     </script>
+        <script src="./nav.js"></script>
+        <script>
+            fetch('/user-info')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No autorizado');
+                    }
+                    return response.json();
+                })
+                .then(user => {
+                    window.user = user;
+                    updateNav();
+                })
+                .catch(error => {
+                    console.error('Error al obtener los datos del usuario:', error);
+                });
+        </script>
 </body>
 </html>

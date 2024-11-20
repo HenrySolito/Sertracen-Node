@@ -429,7 +429,14 @@ app.post('/pagar_infraccion', (req, res) => {
     });
 });
 
-
+//Para nav
+app.get('/user-info', (req, res) => { 
+    const user = req.session.user; 
+    if (!user) { 
+        return res.status(401).json({ error: 'No autorizado' }); 
+    } 
+    res.json(user);
+ });
 
 
 // Start the server
