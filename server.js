@@ -13,47 +13,51 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname));
 app.use(express.json());
 
+app.use(session({
+    secret: 'clave_secreta', // Cambia esta clave por una más segura
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 } // 1 hora
+}));
+
 
 //Rutas para las vistas -------------------------------------------------------
 
 // Vistas Login y Crear usuario-----------------------------------------------------------
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-app.get('/crear_usuario', (req, res) => {
-    res.sendFile(path.join(__dirname, 'crear_usuario.html'));
+const protectedPages = [
+    { route: '/inicio', file: 'inicio.html' },
+    { route: '/creacion_cita', file: 'creacion_cita.html' },
+    { route: '/renovacion_tramite', file: 'renovacion_tramite.html' },
+    { route: '/pago_infraccion', file: 'pago_infraccion.html' },
+    { route: '/citas_programadas', file: 'citas_programadas.html' },
+    { route: '/sobre_nosotros', file: 'sobre_nosotros.html' },
+    { route: '/cita_programada', file: 'cita_programada.html' }
+];
+
+const publicPages = [
+    { route: '/', file: 'index.html' },
+    { route: '/crear_usuario', file: 'crear_usuario.html' },
+    { route: '/registro', file: 'registro.html' }
+];
+
+// Configurar páginas públicas
+publicPages.forEach(page => {
+    app.get(page.route, (req, res) => {
+        res.sendFile(path.join(__dirname, page.file));
+    });
 });
 
-app.get('/inicio', (req, res) => {
-    res.sendFile(path.join(__dirname, 'inicio.html'));
+// Configurar páginas protegidas (requieren sesión)
+protectedPages.forEach(page => {
+    app.get(page.route, (req, res) => {
+        if (req.session && req.session.user) {
+            res.sendFile(path.join(__dirname, page.file));
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
-app.get('/creacion_cita', (req, res) => {
-    res.sendFile(path.join(__dirname, 'creacion_cita.html'));
-});
-
-app.get('/renovacion_tramite', (req, res) => {
-    res.sendFile(path.join(__dirname, 'renovacion_tramite.html'));
-});
-app.get('/sobre_nosotros', (req, res) => {
-    res.sendFile(path.join(__dirname, 'sobre_nosotros.html'));
-});
-//Se va a borrar
-app.get('/primera_cita', (req, res) => {
-    res.sendFile(path.join(__dirname, 'primera_cita.html'));
-});
-app.get('/pago_infraccion', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pago_infraccion.html'));
-});
-app.get('/citas_programadas', (req, res) => {
-    res.sendFile(path.join(__dirname, 'citas_programadas.html'));
-});
-app.get('/cita_programada', (req, res) => {
-    res.sendFile(path.join(__dirname, 'cita_programada.html'));
-});
-app.get('/registro', (req, res) => {
-    res.sendFile(path.join(__dirname, 'registro.html'));
-});
 
 
 //Crear Usuario------------------------------------------------
@@ -128,6 +132,11 @@ app.post('/login', (req, res) => {
 
         if (results.length > 0) {
             // Redirige al `index.html` si las credenciales son correctas
+            req.session.user = {
+                dui: results[0].dui,
+                nombre: results[0].nombre,
+                tipoUsuario: results[0].tipo_usuario
+            };
             res.status(200).json({message: 'Credenciales Correctas', redirect: '/inicio' });
         } else {
             res.status(401).send(`
@@ -140,7 +149,15 @@ app.post('/login', (req, res) => {
     });
 });
 
-
+//Logout----------------------------------------------------------
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).send('No se pudo cerrar la sesión');
+        }
+        res.redirect('/');
+    });
+});
 
 //---------------------------------------------
 
