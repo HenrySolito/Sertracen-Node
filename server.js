@@ -25,7 +25,11 @@ app.get('/crear_usuario', (req, res) => {
 });
 
 app.get('/inicio', (req, res) => {
-    res.sendFile(path.join(__dirname, 'inicio.html'));
+    if (req.session.user){
+        res.sendFile(path.join(__dirname, 'inicio.html'));
+    } else {
+        res.redirect('/')
+    }
 });
 
 app.get('/creacion_cita', (req, res) => {
@@ -144,7 +148,7 @@ app.post('/login', (req, res) => {
 
 //---------------------------------------------
 
-
+//Citas programadas de todos los usuarios para vista Admin
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
       SELECT  p.nombre, p.dui, p.fecha_nacimiento, p.direccion, p.tipo_sangre, l.categoria AS tipo_licencia, 
@@ -163,7 +167,36 @@ app.get('/api/citas_programadas', (req, res) => {
       }
       res.json(rows);
     });
-  });  
+  }); 
+  
+  //Cita programada del usuario para vista Usuario
+  app.get('/api/cita_programada', (req, res) => {
+    // Asegúrate de que el DUI esté disponible en la sesión del usuario
+    const duiUsuario = req.session.dui; // Suponiendo que el DUI del usuario está almacenado en la sesión
+    
+    if (!duiUsuario) {
+      return res.status(401).send('No autorizado. El usuario no está logeado.');
+    }
+  
+    // Actualizamos la consulta para que filtre por el DUI del usuario logeado
+    const query = `
+      SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, al.estado  
+      FROM persona p 
+      INNER JOIN citas c ON c.dui = p.dui
+      INNER JOIN asignacion_licencia al ON al.dui = p.dui
+      INNER JOIN licencias l ON l.id_licencia = al.id_licencia
+      WHERE al.estado = 'Activo' AND p.dui = ?
+    `;
+    
+    connection.query(query, [duiUsuario], (err, rows) => {
+      if (err) {
+        console.log('Error en la consulta:', err);
+        return res.status(500).send('Error en la consulta');
+      }
+      res.json(rows);
+    });
+  });
+  
 
 //----------------------------------------------------------------------------
 // Buscar_por_dui

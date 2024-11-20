@@ -97,55 +97,73 @@
       <p class="mb-0">Sertracen</p>
       <p class="mb-0">Copyright - 2024</p>
     </footer>
-
     <script>
-
-function openModalFromButton(button) {
-
-    const persona = JSON.parse(button.getAttribute('data-persona'));
-    openModal(persona);
-}
-
-        function openModal(persona) {
-            document.getElementById('modalNombre').textContent = persona.nombre;
-            document.getElementById('modalDUI').textContent = persona.dui;
-            document.getElementById('modalFechaNacimiento').textContent = persona.fecha_nacimiento;
-            document.getElementById('modalDireccion').textContent = persona.direccion;
-            document.getElementById('modalFechaExpedicion').textContent = persona.fecha_registro;
-            document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
-            document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
-            document.getElementById('infoModal').style.display = 'flex';
-        }
-
-        function closeModal() {
-            document.getElementById('infoModal').style.display = 'none';
-        }
-
-        fetch('/api/citas_programadas')
-            .then(response => response.json())
-            .then(data => {
-                const tableBody = document.querySelector('#citas-table tbody');
-
-                data.forEach(persona => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${persona.fecha_cita}</td>
-                        <td>${persona.nombre}</td>
-                        <td>${persona.tipo_licencia}</td>
-                        <td>
-                            <button type="button" class="btn btn-outline-dark" data-persona='${JSON.stringify(persona)}' onclick="openModalFromButton(this)">
-                                <i class="bi bi-person-vcard"></i>
-                            </button>
-                        </td>
-                    `;
-                    tableBody.appendChild(row);
-                });
-            })
-            .catch(error => {
-                console.error('Error al cargar los datos:', error);
-            });
+      function openModalFromButton(button) {
+          const persona = JSON.parse(button.getAttribute('data-persona'));
+          openModal(persona);
+      }
+  
+      function openModal(persona) {
+          document.getElementById('modalNombre').textContent = persona.nombre;
+          document.getElementById('modalDUI').textContent = persona.dui;
+          document.getElementById('modalFechaNacimiento').textContent = persona.fecha_nacimiento;
+          document.getElementById('modalDireccion').textContent = persona.direccion;
+          document.getElementById('modalFechaExpedicion').textContent = persona.fecha_registro;
+          document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
+          document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
+          document.getElementById('infoModal').style.display = 'flex';
+      }
+  
+      function closeModal() {
+          document.getElementById('infoModal').style.display = 'none';
+      }
+  
+      // Función para formatear la fecha en formato dd-mm-yyyy hh:mm
+      function formatFecha(fecha) {
+          const date = new Date(fecha);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0'); // Los meses empiezan desde 0
+          const year = date.getFullYear();
+          const hours = String(date.getHours()).padStart(2, '0');
+          const minutes = String(date.getMinutes()).padStart(2, '0');
+          
+          return `${day}-${month}-${year} ${hours}:${minutes}`;
+      }
+  
+      fetch('/api/citas_programadas')
+          .then(response => response.json())
+          .then(data => {
+              // Ordenar los datos por fecha_cita
+              data.sort((a, b) => {
+                  const fechaA = new Date(a.fecha_cita);
+                  const fechaB = new Date(b.fecha_cita);
+                  return fechaA - fechaB; // Orden ascendente
+              });
+  
+              const tableBody = document.querySelector('#citas-table tbody');
+              
+              // Limpiar la tabla antes de agregar las filas ordenadas
+              tableBody.innerHTML = '';
+  
+              data.forEach(persona => {
+                  const row = document.createElement('tr');
+                  row.innerHTML = `
+                      <td>${formatFecha(persona.fecha_cita)}</td> <!-- Fecha formateada -->
+                      <td>${persona.nombre}</td>
+                      <td>${persona.tipo_licencia}</td>
+                      <td>
+                          <button type="button" class="btn btn-outline-dark" data-persona='${JSON.stringify(persona)}' onclick="openModalFromButton(this)">
+                              <i class="bi bi-person-vcard"></i>
+                          </button>
+                      </td>
+                  `;
+                  tableBody.appendChild(row);
+              });
+          })
+          .catch(error => {
+              console.error('Error al cargar los datos:', error);
+          });
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
