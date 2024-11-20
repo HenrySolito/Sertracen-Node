@@ -84,43 +84,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script>
-      document.getElementById('generatePDF').addEventListener('click', function() {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF(); 
-
-      doc.addImage('/public/img/logo.png', 'PNG', 20, 15, 50, 25);
-
-      // Información de contacto del centro
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.text('Sertracen', 80, 20);
-      doc.text('Calle 13, Santa Ana, El Salvador', 80, 25);
-      doc.text('Tel: (+503) 9456-7890', 80, 30);
-      doc.text('Email: sertracen@centroconduccion.com', 80, 35);
-
-      // Título de la cita
-      doc.setFontSize(14);
-      doc.text('Comprobante de Cita para Licencia de Conducir', 20, 70);
-
-      // Detalles de la cita
-      doc.setFont('helvetica', 'italic');
-      doc.setFontSize(12);
-      doc.text('Nombre del solicitante: Juan Pérez', 20, 90);
-      doc.text('Tipo de Cita: Examen de conducción', 20, 100);
-      doc.text('Fecha de cita: 20 de noviembre de 2024', 20, 110);
-
-      // Notas
-      doc.setFontSize(12);
-      doc.text('Notas:', 20, 150);
-      doc.text('- Llegar 15 minutos antes de la cita', 20, 160);
-      doc.text('- Traer identificación y permiso provisional', 20, 170);
-
-      // Guardamos el PDF con un nombre
-      doc.save('comprobante_cita.pdf');
-  });
-
-    </script>
-    <script>
       function formatFecha(fecha) {
           const date = new Date(fecha);
           const day = String(date.getDate()).padStart(2, '0');
@@ -156,11 +119,15 @@
               <td>
                   <!-- Botón de Eliminar -->
                   <button type="button" class="btn btn-outline-danger" onclick="eliminarCita(${persona.id_cita})">
-                      <i class="bi bi-trash3"></i> Eliminar
+                      <i class="bi bi-trash3"></i>
                   </button>
                   <!-- Botón de Editar -->
                   <button type="button" class="btn btn-outline-secondary">
-                      <i class="bi bi-pencil-square"></i> Editar
+                      <i class="bi bi-pencil-square"></i>
+                  </button>
+                  <!-- Botón de pdf -->
+                  <button type="button" class="btn btn-outline-info" data-id="${persona.id_cita}" onclick="generarPDF(${persona.id_cita})"> 
+                    <i class="bi bi-file-earmark-pdf"></i> 
                   </button>
               </td>
           `;
@@ -195,7 +162,48 @@ function eliminarCita(id_cita) {
     }
 }
  
+// Función para generar el PDF
+function generarPDF(id_cita) {
+    // Obtener la fila de la tabla correspondiente al ID de la cita 
+    const row = document.querySelector(`button[data-id='${id_cita}']`).closest('tr'); 
+    // Obtener los datos de la cita desde la fila de la tabla 
+    const fechaCita = row.cells[0].textContent; 
+    const nombre = row.cells[1].textContent; 
+    const tipoLicencia = row.cells[2].textContent;
 
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.addImage('/public/img/logo.png', 'PNG', 20, 15, 50, 25);
+
+    // Información de contacto del centro
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.text('Sertracen', 80, 20);
+    doc.text('Calle 13, Santa Ana, El Salvador', 80, 25);
+    doc.text('Tel: (+503) 9456-7890', 80, 30);
+    doc.text('Email: sertracen@centroconduccion.com', 80, 35);
+
+    // Título de la cita
+    doc.setFontSize(14);
+    doc.text('Comprobante de Cita para Licencia de Conducir', 20, 70);
+
+    // Detalles de la cita
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(12);
+    doc.text(`Nombre del solicitante: ${nombre}`, 20, 90);
+    doc.text(`Tipo de Cita: ${tipoLicencia}`, 20, 100);
+    doc.text(`Fecha de cita: ${formatFecha(fechaCita)}`, 20, 110);
+
+    // Notas
+    doc.setFontSize(12);
+    doc.text('Notas:', 20, 150);
+    doc.text('- Llegar 15 minutos antes de la cita', 20, 160);
+    doc.text('- Traer identificación y permiso provisional', 20, 170);
+
+    // Guardamos el PDF con un nombre
+    doc.save('comprobante_cita.pdf');
+}
     </script>
 </body>
 </html>
