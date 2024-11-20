@@ -284,18 +284,59 @@ app.post('/registrar_cita', (req, res) => {
     }
 
     const { tipoLicencia, fechaCita } = req.body;
-    const dui = req.session.user.dui; // Utiliza el DUI del usuario logeado
+    const dui = req.session.user.dui; // Obtener el DUI del usuario logeado
 
     if (!tipoLicencia || !fechaCita) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
+    // Verificar si existe una licencia asociada al DUI y tipo de licencia
+    const buscarLicenciaQuery = 'SELECT * FROM asignacion_licencia WHERE dui = ? AND id_licencia = ?';
+    connection.query(buscarLicenciaQuery, [dui, tipoLicencia], (err, results) => {
+        if (err) {
+            console.error('Error al buscar la licencia:', err);
+            return res.status(500).json({ error: 'Error al buscar la licencia en la base de datos' });
+        }
+
+        if (results.length > 0) {
+            // Si existe, incrementar el campo "vez"
+            const licencia = results[0];
+            const actualizarLicenciaQuery = 'UPDATE asignacion_licencia SET vez = vez + 1 WHERE id_al = ?';
+            connection.query(actualizarLicenciaQuery, [licencia.id_al], (err2) => {
+                if (err2) {
+                    console.error('Error al actualizar la licencia:', err2);
+                    return res.status(500).json({ error: 'Error al actualizar la licencia en la base de datos' });
+                }
+
+                // Registrar la cita
+                registrarCita(dui, tipoLicencia, fechaCita, res);
+            });
+        } else {
+            // Si no existe, crear una nueva licencia como "Inactiva"
+            const crearLicenciaQuery = 'INSERT INTO asignacion_licencia (dui, id_licencia, vez, fecha_registro, estado) VALUES (?, ?, ?, ?, ?)';
+            const fechaRegistro = new Date().toISOString().split('T')[0]; // Fecha actual en formato "YYYY-MM-DD"
+            connection.query(crearLicenciaQuery, [dui, tipoLicencia, 1, fechaRegistro, 'Inactiva'], (err3) => {
+                if (err3) {
+                    console.error('Error al crear la licencia:', err3);
+                    return res.status(500).json({ error: 'Error al crear la licencia en la base de datos' });
+                }
+
+                // Registrar la cita
+                registrarCita(dui, tipoLicencia, fechaCita, res);
+            });
+        }
+    });
+});
+
+// Función para registrar la cita
+function registrarCita(dui, tipoLicencia, fechaCita, res) {
     const query = 'INSERT INTO citas (dui, tipo, fecha_cita) VALUES (?, ?, ?)';
     connection.query(query, [dui, tipoLicencia, fechaCita], (err, results) => {
         if (err) {
             console.error('Error al registrar la cita:', err);
             return res.status(500).json({ error: 'Error al registrar la cita en la base de datos' });
         }
+
         res.status(200).send(`
             <script>
                 alert('Cita registrada exitosamente.');
@@ -303,7 +344,8 @@ app.post('/registrar_cita', (req, res) => {
             </script>
         `);
     });
-});
+}
+
 
 
 
