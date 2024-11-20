@@ -38,7 +38,6 @@ const protectedPages = [
 const publicPages = [
     { route: '/', file: 'index.html' },
     { route: '/crear_usuario', file: 'crear_usuario.html' },
-    { route: '/registro', file: 'registro.html' }
 ];
 
 // Configurar páginas públicas
@@ -189,6 +188,7 @@ app.get('/api/citas_programadas', (req, res) => {
       res.json(rows);
     });
   }); 
+
   
   //Cita programada del usuario para vista Usuario
   app.get('/api/cita_programada', (req, res) => {
@@ -202,7 +202,7 @@ app.get('/api/citas_programadas', (req, res) => {
     }
   
     const query = `
-      SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, al.estado  
+      SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, c.id_cita, al.estado  
       FROM persona p 
       INNER JOIN citas c ON c.dui = p.dui
       INNER JOIN asignacion_licencia al ON al.dui = p.dui
@@ -389,76 +389,7 @@ app.post('/primera_cita', (req, res) => {
         } res.send(` 
             <h1>Bienvenido, usuario con DUI: ${req.session.user.dui}</h1> 
             <a href="/logout">Cerrar sesión</a> `);
-});
-  
-// Registro
-app.post('/registro', (req, res) => {
-    const { 
-      dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico, password} = req.body;
-  
-    const queryPersona = 'INSERT INTO persona (dui, nombre, telefono, fecha_nacimiento, tipo_sangre, direccion, genero, correo, contra, tipo_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(queryPersona, [dui, nombreCompleto, telefono, fechaNacimiento, tipoSangre, direccion, genero, correoElectronico, password, 'user'], (err, result) => {
-        if (err) {
-            console.error('Error al guardar los datos: ', err);
-            res.send('Hubo un error al guardar los datos.');
-        }
-
-        res.send(`
-              <script>
-                alert('Se guardaron correctamente');
-                window.location.href = "/login";
-              </script>
-            `);
-        
-    });
-});
-/*Revisar si funciona la session
-app.use(bodyParser.urlencoded({ extended: true })); 
-// Configura el middleware de sesión 
-app.use(session({ 
-    secret: 'tu_secreto', 
-    resave: false, 
-    saveUninitialized: true, 
-    cookie: { secure: false } // Usa true si estás usando HTTPS 
-    }));
-
-//Login
-app.post('/login',(req,res) =>{
-    const { dui, password } = req.body; 
-    const queryPersona = 'SELECT * FROM persona WHERE dui = ? AND contra = ?'; 
-    connection.query(queryPersona, [dui, password], (err, results) => { 
-        if (err) { 
-            return res.status(500).json({ error: 'Error al consultar la base de datos' }); 
-        } 
-        if (results.length > 0) { 
-            // Inicia la sesión y guarda el DUI en la sesión 
-            req.session.user = { dui: results[0].dui }; 
-            res.send(` 
-                <script> 
-                alert('Inicio de sesión exitoso'); 
-                window.location.href = "/primera_cita"; 
-                </script> `); 
-            } else { 
-                res.send(` 
-                    <script> 
-                    alert('Usuario o contraseña incorrectos'); 
-                    </script> `); 
-            }
-    });
-});
-
-// Ruta para cerrar sesión 
-app.get('/logout', (req, res) => { 
-    req.session.destroy((err) => { 
-        if (err) { 
-            return res.status(500).json({ error: 'Error al cerrar sesión' }); 
-        } 
-        res.send(` 
-            <script> alert('Sesión cerrada correctamente'); 
-            window.location.href = "/"; 
-            </script> `); 
-        }); 
-    });*/
+}); 
 
 //Pagar Infracción
 app.post('/pagar_infraccion', (req, res) => {
