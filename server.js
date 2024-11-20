@@ -25,11 +25,7 @@ app.get('/crear_usuario', (req, res) => {
 });
 
 app.get('/inicio', (req, res) => {
-    if (req.session.user){
-        res.sendFile(path.join(__dirname, 'inicio.html'));
-    } else {
-        res.redirect('/')
-    }
+    res.sendFile(path.join(__dirname, 'inicio.html'));
 });
 
 app.get('/creacion_cita', (req, res) => {
