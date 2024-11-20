@@ -43,79 +43,32 @@
     </nav>
     <!-- Sección de Trámite por Primera Vez -->
     <div class="container my-5">
-        <h2 class="fw-bold">Trámite por primera vez</h2>
-        <p class="text-muted">Completa el siguiente formulario para solicitar tu cita y tramitar tu licencia de conducir por primera vez. Asegúrate de proporcionar información precisa y actualizada para agilizar el proceso de inscripción y revisión.</p>
-        
-        <h5 class="fw-semibold">Completa tus datos personales</h5>
-        <form  action="/licencia_nuevo" method="POST">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="nombreCompleto" class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" id="nombreCompleto" name="nombreCompleto" placeholder="Nombre completo" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="dui" class="form-label">DUI</label>
-                    <input type="text" class="form-control" id="dui" name="dui" placeholder="DUI" required pattern="\d{8}-\d{1}" title="El DUI debe tener el formato 12345678-9.">
-                </div>
-                <div class="col-md-6">
-                    <label for="telefono" class="form-label">Teléfono</label>
-                    <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" required pattern="\d{4}-\d{4}" title="El teléfono debe tener el formato 1234-5678">
-                </div>
-                <div class="col-md-6">
-                    <label for="fechaNacimiento" class="form-label">Fecha de nacimiento</label>
-                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="tipoSangre" class="form-label">Tipo de sangre</label>
-                    <input type="text" class="form-control" id="tipoSangre" name="tipoSangre" placeholder="Tipo de sangre" required  title="El tipo de sangre debe ser A+, A-, B+, B-, AB+, AB-, O+ o O-">
-                </div>
-                <div class="col-md-6">
-                    <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Dirección" required>
-                </div>
-                <div class="col-md-6">
-                    <label for="genero" class="form-label">Género</label>
-                    <select class="form-select" id="genero" name="genero" required>
-                        <option value="" disabled selected>Seleccionar</option>
-                        <option value="M">Masculino</option>
-                        <option value="F">Femenino</option>
-                        <option value="O">Otro</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="correoElectronico" class="form-label">Correo electrónico</label>
-                    <input type="email" class="form-control" id="correoElectronico" name="correoElectronico"placeholder="Correo electrónico" required title="Debe ser una dirección de correo válida, por ejemplo, usuario@dominio.com">
+        <h2 class="fw-bold">Agenda tu cita</h2>
+        <form action="/registrar_cita" method="POST">
+            <div class="mb-3 mt-4">
+                <label for="tipoLicencia" class="form-label">Tipo de licencia que desea adquirir</label>
+                <p class="text-muted">Selecciona el tipo de licencia que deseas tramitar.</p>
+                <select class="form-select" id="tipoLicencia" name="tipoLicencia" required>
+                    <option value="" disabled selected>Seleccionar tipo de licencia</option>
+                    <option value="1">Licencia Juvenil Vehículos Particulares</option>
+                    <option value="2">Licencia Juvenil Motociclistas</option>
+                    <option value="3">Licencia Particular</option>
+                    <option value="4">Licencia Pesada</option>
+                    <option value="5">Licencia Pesada-T</option>
+                </select>
+            </div>
+            <div class="mb-3 mt-4">
+                <label for="citaTramite" class="form-label">Cita para Trámite</label>
+                <p class="text-muted">Elige la fecha y hora que prefieras para tu cita, de acuerdo con la disponibilidad.</p>
+                <div class="input-group">
+                    <input type="datetime-local" class="form-control" id="citaTramite" name="fechaCita" min="" required>
                 </div>
             </div>
-        <!-- Selección de Tipo de Licencia y Fecha de Cita -->
-        <div class="mb-3 mt-4">
-            <h5 class="fw-semibold">Agenda tu cita</h5>
-            <label for="tipoLicencia" class="form-label">Tipo de licencia que desea adquirir</label>
-            <p class="text-muted">Selecciona el tipo de licencia que deseas tramitar.</p>
-            <select class="form-select" id="tipoLicencia" name="tipoLicencia" required>
-                <option value="" disabled selected>Seleccionar tipo de licencia</option>
-                <option value="1">Licencia Juvenil Vehículos Particulares</option>
-                <option value="2">Licencia Juvenil Motociclistas</option>
-                <option value="3">Licencia Particular</option>
-                <option value="4">Licencia Pesada</option>
-                <option value="5">Licencia Pesada-T</option>
-            </select>
-        </div>
-        <!--Cita-->
-        <div class="mb-3 mt-4">
-            <label for="citaTramite" class="form-label">Cita para Trámite</label>
-            <p class="text-muted">Elige la fecha y hora que prefieras para tu cita, de acuerdo con la disponibilidad.</p>
-            <div class="input-group">
-                <input type="datetime-local" class="form-control" id="citaTramite" name="citaTramite" min="">                
+            <div class="d-flex gap-3">
+                <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
+                <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrar Cita</button>
             </div>
-        </div>
-        
-        <div class="d-flex gap-3">
-            <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
-            <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrar Cita</button>
-        </div>
-    </div>
-        </form>
+        </form>        
     </div>    
 
     <!-- Footer -->

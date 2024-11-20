@@ -31,7 +31,8 @@ const protectedPages = [
     { route: '/pago_infraccion', file: 'pago_infraccion.html' },
     { route: '/citas_programadas', file: 'citas_programadas.html' },
     { route: '/sobre_nosotros', file: 'sobre_nosotros.html' },
-    { route: '/cita_programada', file: 'cita_programada.html' }
+    { route: '/cita_programada', file: 'cita_programada.html' },
+    { route: '/primera_cita', file: 'primera_cita.html'},
 ];
 
 const publicPages = [
@@ -273,9 +274,19 @@ app.get('/buscar_por_dui', (req, res) => {
 
 // Ruta para manejar la creación de una nueva cita
 app.post('/registrar_cita', (req, res) => {
-    const { dui, tipoLicencia, fechaCita } = req.body;
+    if (!req.session.user) {
+        return res.status(401).send(`
+            <script>
+                alert('Debe iniciar sesión primero.');
+                window.location.href = "/";
+            </script>
+        `);
+    }
 
-    if (!dui || !tipoLicencia || !fechaCita) {
+    const { tipoLicencia, fechaCita } = req.body;
+    const dui = req.session.user.dui; // Utiliza el DUI del usuario logeado
+
+    if (!tipoLicencia || !fechaCita) {
         return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
 
@@ -285,9 +296,16 @@ app.post('/registrar_cita', (req, res) => {
             console.error('Error al registrar la cita:', err);
             return res.status(500).json({ error: 'Error al registrar la cita en la base de datos' });
         }
-        res.status(200).json({ message: 'Cita registrada exitosamente' });
+        res.status(200).send(`
+            <script>
+                alert('Cita registrada exitosamente.');
+                window.location.href = "/inicio";
+            </script>
+        `);
     });
 });
+
+
 
 //Busqueda de infracciones
 app.get('/buscar_infracciones', (req, res) => {
