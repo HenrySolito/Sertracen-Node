@@ -145,7 +145,7 @@ app.post('/login', (req, res) => {
                 nombre: results[0].nombre,
                 tipoUsuario: results[0].tipo_usuario
             };
-            res.status(200).json({message: 'Credenciales Correctas', redirect: '/inicio' });
+            res.status(200).json({ redirect: '/inicio' });
         } else {
             res.status(401).send(`
                 <script>
@@ -420,7 +420,6 @@ app.post('/asignarInfraccion', (req, res) => {
         return res.status(400).json({ error: 'Faltan datos requeridos' });
     }
 
-    // Verificar si el DUI existe en la tabla persona
     const verificarDuiQuery = 'SELECT * FROM persona WHERE dui = ?';
     connection.query(verificarDuiQuery, [dui], (err, results) => {
         if (err) {
@@ -431,22 +430,17 @@ app.post('/asignarInfraccion', (req, res) => {
         if (results.length === 0) {
             return res.status(404).json({ error: 'El DUI no existe en la base de datos' });
         }
-
-        // Calcular la fecha de vencimiento como 5 meses después de la fecha actual
         const hoy = new Date();
         const fechaVencimiento = new Date(hoy.setMonth(hoy.getMonth() + 5));
         const tiempoTranscurrido = Date.now();
         const today = new Date(tiempoTranscurrido);
 
-        // Insertar la infracción en la base de datos
         const query = 'INSERT INTO asignacion_infraccion (dui, id_infraccion, estado, fecha_infraccion, fecha_vencimiento) VALUES (?, ?, ?, ?, ?)';
         connection.query(query, [dui, tipo_infraccion, 'No pagado', today, fechaVencimiento], (err, results) => {
             if (err) {
                 console.error('Error al registrar la infracción:', err);
                 return res.status(500).json({ error: 'Error al registrar la infracción en la base de datos' });
             }
-
-            // Redirigir a la ruta /infracciones
             res.redirect('/infracciones');
         });
     });
