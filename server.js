@@ -174,7 +174,7 @@ app.get('/logout', (req, res) => {
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
       SELECT  p.nombre, p.dui, p.fecha_nacimiento, p.direccion, p.tipo_sangre, l.categoria AS tipo_licencia, c.fecha_cita AS fecha_registro,c.fecha_cita, p.genero, 
-      p.telefono, (SELECT COUNT(id_infraccion) from asignacion_infraccion ai where p.dui=ai.dui AND ai.dui='No pagado') as infraccion
+      p.telefono, (SELECT COUNT(id_infraccion) from asignacion_infraccion ai where p.dui=ai.dui AND ai.estado='No pagado') as infraccion
       FROM persona p 
       INNER JOIN citas c ON c.dui = p.dui
       INNER JOIN licencias l ON l.id_licencia = c.tipo 

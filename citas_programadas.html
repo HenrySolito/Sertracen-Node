@@ -69,7 +69,7 @@
                       <div class="license-details">
                         <p><strong>Nombre: </strong><span id="modalNombre"></span></p>
                         <p><strong>ID:</strong><span id="modalDUI"></span></p>
-                        <p><strong>Fecha de Expiración:</strong>  mmmmm</p>
+                        <!--<p><strong>Fecha de Expiración:</strong>  mmmmm</p>-->
                         <p><strong><span id="modalTipoLicencia"></span></strong></p>
                       </div>
                     </div>
@@ -107,7 +107,7 @@
           document.getElementById('modalDUI').textContent = persona.dui;
           document.getElementById('modalFechaNacimiento').textContent = formatFecha(persona.fecha_nacimiento);
           document.getElementById('modalDireccion').textContent = persona.direccion;
-          //document.getElementById('modalFechaExpedicion').textContent = formatFecha(persona.fecha_registro);
+          //document.getElementById('modalFechaExpedicion').textContent = formatFecha(persona.fecha_registro + fecha_registro.getMonth() + 5);
           document.getElementById('modalTipoLicencia').textContent = persona.tipo_licencia;
           document.getElementById('modalTipoSangre').textContent = persona.tipo_sangre;
           document.getElementById('modalTelefono').textContent = persona.telefono;
