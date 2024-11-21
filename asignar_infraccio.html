@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trámite por Primera Vez</title>
+    <link rel="stylesheet" href="./public/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="/inicio">
+                <img src="/public/img/logo_sertracen.svg" alt="logo" width="30%">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+
+            </div>
+        </div>
+    </nav>
+    <!-- Asiganar una infraccion -->
+    <div class="container my-5">
+        <h2 class="fw-bold">Asignar Infracción</h2>
+        <form action="/asignarInfraccion" method="POST">
+            <div class="mb-3 mt-4">
+                <div class="mb-3">
+                    <label for="dui" class="form-label">DUI</label>
+                    <input placeholder="00000000-0" maxlength="10" class="form-control" name="dui" id="dui" required>
+                </div>
+            </div>
+            <div class="mb-3 mt-4">
+                <label for="tipoLicencia" class="form-label">Tipo de licencia que desea adquirir</label>
+                <p class="text-muted">Selecciona el tipo de licencia que deseas tramitar.</p>
+                <select class="form-select" id="tipo_infraccion" name="tipo_infraccion" required>
+                    <option value="" disabled selected>Seleccione la Infracción</option>
+                    <option value="1">Carecer de luz de placa</option>
+                    <option value="2">No portar licencia de conducir</option>
+                    <option value="3">Carecer de luz de freno</option>
+                    <option value="4">Estacionarse en lugar prohibido</option>
+                    <option value="5">No portar licencia de conducir</option>
+                    <option value="6">Conducir con las luces apagadas en la noche</option>
+                    <option value="7">Conducir bajo efectos de alcohol</option>
+                    <option value="8">Pasar un semáforo en rojo</option>
+                    <option value="9">No respetar señales de tránsito</option>
+                    <option value="10">Usar el teléfono celular mientras conduce</option>
+                    <option value="11">No usar el cinturón de seguridad</option>
+                    <option value="12">Sobrepasar el límite de velocidad</option>
+                    <option value="13">Conducir un vehículo sin placas</option>
+                    <option value="14">Transportar exceso de pasajeros</option>
+                    <option value="15">Circular en contravía</option>
+                    <option value="16">Estacionarse en zona para discapacitados</option>
+                    <option value="17">No detenerse ante un paso peatonal</option>
+                </select>
+            </div>
+            <div class="d-flex gap-3">
+                <button type="reset" class="btn btn-outline-primary fw-bold rounded-4 text-custom">Limpiar</button>
+                <button type="submit" class="btn text-black fw-bold rounded-4" style="background-color: #FFCB00;">Registrar Cita</button>
+            </div>
+        </form>        
+    </div>    
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        <p class="mb-0">Sertracen</p>
+        <p class="mb-0">Copyright - 2024</p>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="./nav.js"></script>
+</body>
+</html>

@@ -34,6 +34,7 @@ const protectedPages = [
     { route: '/cita_programada', file: 'cita_programada.html' },
     { route: '/primera_cita', file: 'primera_cita.html'},
     { route: '/infracciones', file: 'infracciones.html'},
+    { route: '/asignar_infraccion', file: 'asignar_infraccio.html'},
 ];
 
 const publicPages = [
@@ -374,7 +375,7 @@ app.post('/registrar_cita', (req, res) => {
                 }
 
                 // Registrar la cita
-                registrarCita(dui, tipoLicencia, fechaCita, res);
+                registrarCita(req, res);
             });
         } else {
             // Si no existe, crear una nueva licencia como "Inactiva"
@@ -410,6 +411,47 @@ function registrarCita(dui, tipoLicencia, fechaCita, res) {
         `);
     });
 }
+
+// Función para asignar infracción
+app.post('/asignarInfraccion', (req, res) => {
+    const { dui, tipo_infraccion } = req.body;
+
+    if (!dui || !tipo_infraccion) {
+        return res.status(400).json({ error: 'Faltan datos requeridos' });
+    }
+
+    // Verificar si el DUI existe en la tabla persona
+    const verificarDuiQuery = 'SELECT * FROM persona WHERE dui = ?';
+    connection.query(verificarDuiQuery, [dui], (err, results) => {
+        if (err) {
+            console.error('Error al verificar el DUI:', err);
+            return res.status(500).json({ error: 'Error al verificar el DUI en la base de datos' });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'El DUI no existe en la base de datos' });
+        }
+
+        // Calcular la fecha de vencimiento como 5 meses después de la fecha actual
+        const hoy = new Date();
+        const fechaVencimiento = new Date(hoy.setMonth(hoy.getMonth() + 5));
+        const tiempoTranscurrido = Date.now();
+        const today = new Date(tiempoTranscurrido);
+
+        // Insertar la infracción en la base de datos
+        const query = 'INSERT INTO asignacion_infraccion (dui, id_infraccion, estado, fecha_infraccion, fecha_vencimiento) VALUES (?, ?, ?, ?, ?)';
+        connection.query(query, [dui, tipo_infraccion, 'No pagado', today, fechaVencimiento], (err, results) => {
+            if (err) {
+                console.error('Error al registrar la infracción:', err);
+                return res.status(500).json({ error: 'Error al registrar la infracción en la base de datos' });
+            }
+
+            // Redirigir a la ruta /infracciones
+            res.redirect('/infracciones');
+        });
+    });
+});
+
 
 //Infracciones del usuario------------------------------------
 app.get('/buscar_infracciones', (req, res) => {

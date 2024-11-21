@@ -18,6 +18,9 @@ function updateNav() {
                 <li class="nav-item">
                     <a class="nav-link" href="/infracciones">Listado de infracciones</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/asignar_infraccion">Asignar Infracción</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/logout">Cerrar Sesión</a>
                 </li>

@@ -177,7 +177,7 @@ function generarPDF(id_cita) {
     doc.setFontSize(12);
     doc.text(`Nombre del solicitante: ${nombre}`, 20, 90);
     doc.text(`Tipo de Cita: ${tipoLicencia}`, 20, 100);
-    doc.text(`Fecha de cita: ${formatFecha(fechaCita)}`, 20, 110);
+    doc.text(`Fecha de cita: ${(fechaCita)}`, 20, 110);
 
     // Notas
     doc.setFontSize(12);
