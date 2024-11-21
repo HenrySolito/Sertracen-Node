@@ -239,3 +239,6 @@ p, h1, h2, h3, label, a, li, h5, h4, i, option, input {
   .license-details p {
     margin: 5px 0;
   }
+  body{
+    font-family:'Montserrat'
+  }

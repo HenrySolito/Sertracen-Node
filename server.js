@@ -33,6 +33,7 @@ const protectedPages = [
     { route: '/sobre_nosotros', file: 'sobre_nosotros.html' },
     { route: '/cita_programada', file: 'cita_programada.html' },
     { route: '/primera_cita', file: 'primera_cita.html'},
+    { route: '/infracciones', file: 'infracciones.html'},
 ];
 
 const publicPages = [
@@ -443,6 +444,42 @@ app.get('/buscar_infracciones', (req, res) => {
         }
     });
 });
+
+//Infracciones del usuario para admin (todos los usuarios)------------------------------------
+app.get('/buscar_infracciones_admin', (req, res) => {
+    const dui = req.query.dui; 
+    if (!dui) { 
+        return res.status(400).send('Solicitud incorrecta. El parámetro DUI es requerido.'
+
+        ); 
+    }
+
+    const query = `
+      SELECT 
+          ai.id_ai,
+          ai.dui,
+          i.nombre AS tipo_infraccion,
+          i.clasificacion,
+          i.tarifa,
+          ai.estado,
+          ai.fecha_infraccion,
+          ai.fecha_vencimiento
+      FROM asignacion_infraccion ai
+      JOIN infracciones i ON ai.id_infraccion = i.id_infraccion
+      WHERE ai.dui = ?
+    `; 
+
+    connection.query(query, [dui], (err, results) => { 
+        if (err) { console.error("Error al consultar la base de datos:", err); 
+            return res.status(500).json({ error: 'Error al consultar la base de datos' }); 
+        } else if (results.length > 0) { 
+            return res.status(200).json({ infractions: results }); 
+        } else { 
+            return res.status(404).json({ error: 'No se encontraron infracciones para este DUI' }); 
+        }
+    });
+});
+
 
 // Obtener licencia por primera vez y registrar cita 
 app.post('/primera_cita', (req, res) => {

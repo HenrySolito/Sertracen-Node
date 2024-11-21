@@ -16,6 +16,9 @@ function updateNav() {
                     <a class="nav-link" href="/citas_programadas">Citas programadas</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/infracciones">Listado de infracciones</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/logout">Cerrar Sesión</a>
                 </li>
             </ul>
