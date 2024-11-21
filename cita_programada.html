@@ -133,7 +133,6 @@ function eliminarCita(id_cita) {
         })
         .then(response => {
             if (response.ok) {
-                alert('Cita eliminada correctamente');
                 location.reload(); // Recargar la página para actualizar la tabla
             } else {
                 alert('Hubo un error al eliminar la cita');
