@@ -171,12 +171,10 @@ app.get('/logout', (req, res) => {
 //Citas programadas de todos los usuarios para vista Admin
 app.get('/api/citas_programadas', (req, res) => {
     const query = `
-      SELECT  p.nombre, p.dui, p.fecha_nacimiento, p.direccion, p.tipo_sangre, l.categoria AS tipo_licencia, 
-      al.fecha_registro AS fecha_registro,c.fecha_cita,al.estado, p.genero, p.telefono  
+      SELECT  p.nombre, p.dui, p.fecha_nacimiento, p.direccion, p.tipo_sangre, l.categoria AS tipo_licencia, c.fecha_cita AS fecha_registro,c.fecha_cita, p.genero, p.telefono  
       FROM persona p 
       INNER JOIN citas c ON c.dui = p.dui
-      INNER JOIN asignacion_licencia al ON al.dui = p.dui
-      INNER JOIN licencias l ON l.id_licencia = al.id_licencia 
+      INNER JOIN licencias l ON l.id_licencia = c.tipo 
       `;
     //  WHERE al.estado = 'Activo'
    // `;
@@ -201,11 +199,10 @@ app.get('/api/citas_programadas', (req, res) => {
       return res.status(401).send('No autorizado. El usuario no está logeado.');
     }
     const query = `
-      SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, c.id_cita, al.estado  
+      SELECT p.nombre, p.dui, l.categoria AS tipo_licencia, c.fecha_cita, c.id_cita 
       FROM persona p 
       INNER JOIN citas c ON c.dui = p.dui
-      INNER JOIN asignacion_licencia al ON al.dui = p.dui
-      INNER JOIN licencias l ON l.id_licencia = al.id_licencia
+      INNER JOIN licencias l ON l.id_licencia = c.tipo
       WHERE p.dui = ?
     `;
     //WHERE al.estado = 'Activo' AND 

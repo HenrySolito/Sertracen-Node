@@ -43,9 +43,10 @@
                 <option value="" disabled selected>Seleccionar tipo de licencia</option>
                 <option value="1">Licencia Juvenil Vehículos Particulares</option>
                 <option value="2">Licencia Juvenil Motociclistas</option>
-                <option value="3">Licencia Particular</option>
-                <option value="4">Licencia Pesada</option>
-                <option value="5">Licencia Pesada-T</option>
+                <option value="3">Licencia Motociclistas</option>
+                <option value="4">Licencia Particular</option>
+                <option value="5">Licencia Pesada</option>
+                <option value="6">Licencia Pesada-T</option>
             </select>
         </div>
         <!--Cita-->
@@ -110,7 +111,7 @@
                 document.getElementById('citaTramite').value = new Date(data.cita.fecha_cita).toISOString().slice(0, 16);
             } else {
                 alert('Error al cargar los detalles de la cita.');
-                window.location.href = '/citas_programadas'; // Redirect if the appointment is not found
+                window.location.href = '/cita_programada'; 
             }
         } catch (error) {
             console.error('Error al cargar los detalles de la cita:', error);
@@ -132,8 +133,8 @@
             });
 
             if (response.ok) {
-                alert('Cita modificada exitosamente.');
-                window.location.href = '/citas_programadas';
+                //alert('Cita modificada exitosamente.');
+                window.location.href = '/cita_programada';
             } else {
                 const errorData = await response.json();
                 alert(errorData.error || 'Error al modificar la cita.');
