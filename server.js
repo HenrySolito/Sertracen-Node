@@ -375,7 +375,7 @@ app.post('/registrar_cita', (req, res) => {
                 }
 
                 // Registrar la cita
-                registrarCita(req, res);
+                registrarCita(dui, tipoLicencia, fechaCita, res);
             });
         } else {
             // Si no existe, crear una nueva licencia como "Inactiva"
@@ -405,8 +405,7 @@ function registrarCita(dui, tipoLicencia, fechaCita, res) {
 
         res.status(200).send(`
             <script>
-                alert('Cita registrada exitosamente.');
-                window.location.href = "/inicio";
+                window.location.href = "/cita_programada";
             </script>
         `);
     });
