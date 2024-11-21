@@ -19,19 +19,11 @@
         <a class="navbar-brand" href="/inicio">
           <img src="/public/img/logo_sertracen.svg" alt="logo" width="30%" />
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          
+          <!--Nav JS-->
         </div>
       </div>
     </nav>
@@ -51,6 +43,7 @@
               <th>Fecha de la cita</th>
               <th>Nombre</th>
               <th>Tipo de Licencia</th>
+              <th>Infracciones sin cancelar</th>
               <th>Generar licencia</th>
             </tr>
           </thead>
@@ -159,6 +152,7 @@
                       <td>${formatFecha(persona.fecha_cita)}</td> <!-- Fecha formateada -->
                       <td>${persona.nombre}</td>
                       <td>${persona.tipo_licencia}</td>
+                      <td>${persona.infraccion}</td>
                       <td>
                           <button type="button" class="btn btn-outline-dark" data-persona='${JSON.stringify(persona)}' onclick="openModalFromButton(this)">
                               <i class="bi bi-person-vcard"></i>
